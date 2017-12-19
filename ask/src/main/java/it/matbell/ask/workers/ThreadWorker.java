@@ -23,14 +23,14 @@ package it.matbell.ask.workers;
 import android.util.Log;
 
 import it.matbell.ask.commons.Utils;
-import it.matbell.ask.probes.SKContinuousProbe;
+import it.matbell.ask.probes.ContinuousProbe;
 
 public class ThreadWorker extends Worker {
 
     private RunThread thread;
     private boolean active;
 
-    public ThreadWorker(SKContinuousProbe probe, boolean firstRun){
+    public ThreadWorker(ContinuousProbe probe, boolean firstRun){
         super(probe, firstRun);
     }
 
@@ -69,7 +69,7 @@ public class ThreadWorker extends Worker {
 
                 while (active) {
 
-                    SKContinuousProbe continuousProbe = (SKContinuousProbe) getProbe();
+                    ContinuousProbe continuousProbe = (ContinuousProbe) getProbe();
                     continuousProbe.exec();
                     sleep(continuousProbe.getInterval() * 1000);
                 }

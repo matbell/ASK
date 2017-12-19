@@ -35,7 +35,7 @@ import it.matbell.ask.logs.FileLogger;
  *  - "startDelay" : if present, delays the start of the probe
  *
  */
-public abstract class SKBaseProbe {
+public abstract class BaseProbe {
 
     String logFile;
     private Context context;

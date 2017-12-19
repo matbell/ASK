@@ -50,7 +50,7 @@ import com.google.android.gms.location.DetectedActivity;
  *
  *  - "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
  */
-class SKActivityRecognitionProbe extends SKOnEventProbe {
+class ActivityRecognitionProbe extends OnEventProbe {
 
     private static final int DEFAULT_UPDATE_INTERVAL = 300;
     static final String LOG_INTENT_FIELD = "logFile";
@@ -80,7 +80,7 @@ class SKActivityRecognitionProbe extends SKOnEventProbe {
     }
 
     private PendingIntent getActivityDetectionIntent() {
-        Intent intent = new Intent(getContext(), SKActivityRecognitionReceiver.class);
+        Intent intent = new Intent(getContext(), ActivityRecognitionReceiver.class);
         intent.putExtra(LOG_INTENT_FIELD, logFile);
 
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling

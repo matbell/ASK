@@ -55,9 +55,9 @@ import it.matbell.ask.controllers.HardwareInfoController;
  *  - {@link android.Manifest.permission#INTERNET}
  */
 @SuppressWarnings("unused")
-class SKHardwareInfoProbe extends SKContinuousProbe {
+class HardwareInfoProbe extends ContinuousProbe {
 
-    private static final String WIFI_LOCK_KEY = SKHardwareInfoProbe.class.getName();
+    private static final String WIFI_LOCK_KEY = HardwareInfoProbe.class.getName();
 
     private String wifiP2pMac;
     private WifiManager.WifiLock wifiLock;
@@ -98,6 +98,7 @@ class SKHardwareInfoProbe extends SKContinuousProbe {
     }
 
     @Override
+    @SuppressWarnings("all")
     public void exec() {
 
         WifiManager wifiManager = (WifiManager) getContext().getApplicationContext()

@@ -39,7 +39,7 @@ import it.matbell.ask.commons.Utils;
  *
  */
 @SuppressWarnings("unused")
-class SKInstalledAppsProbe extends SKContinuousProbe {
+class InstalledAppsProbe extends ContinuousProbe {
 
     private BroadcastReceiver appReceiver = new BroadcastReceiver() {
         @Override

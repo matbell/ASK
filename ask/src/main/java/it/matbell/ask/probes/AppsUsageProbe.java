@@ -33,7 +33,9 @@ import it.matbell.ask.model.AppUsageStats;
 
 /**
  * This probe monitors the apps usage statistics using the {@link UsageStatsManager}. For this
- * reason, it requires that the minimum API level supported by the app is >= 22.
+ * reason, it requires that the minimum API level supported by the app is >= 22. In addition, it
+ * requires a system-level permission which should be granted by the user through the Settings app,
+ * typically under  "Settings" -> "Security" -> "Apps with usage access".
  *
  * Parameters:
  *
@@ -49,7 +51,7 @@ import it.matbell.ask.model.AppUsageStats;
  *
  */
 @SuppressWarnings("unused")
-class SKAppsUsageProbe extends SKContinuousProbe {
+class AppsUsageProbe extends ContinuousProbe {
 
     private static final String DEFAULT_STATS_INTERVAL = "1 day";
 
@@ -90,7 +92,7 @@ class SKAppsUsageProbe extends SKContinuousProbe {
     private void getRunningApps(){
 
         List<AppUsageStats> apps = AppsUsageController.getAppUsageStats(getContext(), startDate);
-        logOnFile(true, apps);
+        if(apps.size() != 0) logOnFile(true, apps);
 
     }
 

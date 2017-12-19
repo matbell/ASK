@@ -40,7 +40,7 @@ import it.matbell.ask.controllers.AppsUsageController;
  *      - "android.permission.PACKAGE_USAGE_STATS"
  */
 @SuppressWarnings("all")
-class SKRunningApplicationsProbe extends SKContinuousProbe{
+class RunningApplicationsProbe extends ContinuousProbe {
 
     private static final int DEFAULT_LAST_N_MINUTES = 5;
 

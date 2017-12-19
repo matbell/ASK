@@ -6,101 +6,97 @@
             "remoteLoggerDest" : \"http://mcampana.iit.cnr.it/contextmonitor/upload.php\",
             "probes" : [
                 {
-                    "name" : "SKActivityRecognitionProbe",
+                    "name" : "ActivityRecognitionProbe",
                     "updateInterval" : 60,
                     "logFile" : "activity.csv"
                 },
                 {
-                    "name" : "SKAudioProbe",
+                    "name" : "AudioProbe",
                     "interval" : 60,
                     "logFile" : "audio.csv"
                 },
                 {
-                    "name" : "SKBatteryProbe",
+                    "name" : "BatteryProbe",
                     "interval" : 60,
                     "logFile" : "battery.csv"
                 },
                 {
-                    "name" : "SKBluetoothConnProbe",
+                    "name" : "BluetoothConnProbe",
                     "logFile" : "bt_conn.csv"
                 },
                 {
-                    "name" : "SKBluetoothScanProbe",
+                    "name" : "BluetoothScanProbe",
                     "interval" : 60,
                     "logFile" : "bt_scan.csv"
                 },
                 {
-                    "name" : "SKCallsProbe",
+                    "name" : "CallsProbe",
                     "logFile" : "calls.csv"
                 },
                 {
-                    "name" : "SKCellInfoProbe",
+                    "name" : "CellInfoProbe",
                     "interval" : 60,
                     "logFile" : "cells.csv"
                 },
                 {
-                    "name" : "SKCurrentCalendarEventsProbe",
+                    "name" : "CurrentCalendarEventsProbe",
                     "interval" : 60,
                     "logFile" : "calendar_current_events.csv"
                 },
                 {
-                    "name" : "SKDisplayProbe",
+                    "name" : "DisplayProbe",
                     "interval" : 60,
                     "logFile" : "display.csv"
                 },
                 {
-                    "name" : "SKEnvironmentSensorProbe",
+                    "name" : "EnvironmentSensorProbe",
                     "interval" : 60,
                     "logFile" : "environment_sensors.csv"
                 },
                 {
-                    "name" : "SKMotionSensorsProbe",
+                    "name" : "MotionSensorsProbe",
                     "interval" : 60,
                     "logFile" : "motion_sensors.csv"
                 },
                 {
-                    "name" : "SKPositionSensorProbe",
+                    "name" : "PositionSensorProbe",
                     "interval" : 60,
                     "logFile" : "position_sensors.csv"
                 },
                 {
-                    "name" : "SKInstalledAppsProbe",
+                    "name" : "InstalledAppsProbe",
                     "interval" : 60,
                     "logFile" : "installed_apps.csv"
                 },
                 {
-                    "name" : "SKLocationProbe",
+                    "name" : "LocationProbe",
                     "interval" : 60,
                     "logFile" : "location.csv"
                 },
                 {
-                    "name" : "SKRunningApplicationsProbe",
+                    "name" : "RunningApplicationsProbe",
                     "interval" : 60,
                     "logFile" : "running_apps.csv"
                 },
                 {
-                    "name" : "SKAppsUsageProbe",
+                    "name" : "AppsUsageProbe",
                     "interval" : 60,
                     "logFile" : "apps_usage.csv"
                 },
                 {
-                    "name" : "SKWiFiProbe",
+                    "name" : "WiFiProbe",
                     "interval" : 180,
                     "logFile" : "wifi_scans.csv"
                 },
                 {
-                    "name" : "SKWiFiP2PProbe",
+                    "name" : "WiFiP2PProbe",
                     "interval" : 120,
                     "startDelay" : 120,
                     "logFile" : "wifi_p2p_scans.csv"
                 },
                 {
-                    "name" : "SKSmsProbe",
+                    "name" : "SmsProbe",
                     "logFile" : "sms.csv"
-                },
-                {
-                    "name" : "SKCameraEventsProbe",
-                    "logFile" : "camera_events.csv"
                 }
             ]
         }

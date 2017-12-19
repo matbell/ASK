@@ -44,7 +44,7 @@ import it.matbell.ask.controllers.SKSensorMonitor;
  *
  */
 @SuppressWarnings("unused")
-class SKPositionSensorProbe extends SKContinuousProbe {
+class PositionSensorProbe extends ContinuousProbe {
 
     private static final int DEFAULT_MAX_ELEMENTS = 200;
 

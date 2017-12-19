@@ -20,20 +20,20 @@
 
 package it.matbell.ask.workers;
 
-import it.matbell.ask.probes.SKBaseProbe;
+import it.matbell.ask.probes.BaseProbe;
 
 public abstract class Worker{
 
-    private SKBaseProbe probe;
+    private BaseProbe probe;
     private boolean firstRun;
 
-    Worker(SKBaseProbe probe, boolean firstRun){
+    Worker(BaseProbe probe, boolean firstRun){
         this.probe = probe;
         this.firstRun = firstRun;
         this.probe.init();
     }
 
-    SKBaseProbe getProbe(){return this.probe;}
+    BaseProbe getProbe(){return this.probe;}
     boolean isFirstRun(){return firstRun;}
 
     public abstract void start();

@@ -31,14 +31,16 @@ import java.util.List;
 
 import it.matbell.ask.logs.FileChecker;
 import it.matbell.ask.logs.FileSender;
-import it.matbell.ask.probes.SKBaseProbe;
-import it.matbell.ask.probes.SKContinuousProbe;
-import it.matbell.ask.probes.SKOnEventProbe;
+import it.matbell.ask.probes.BaseProbe;
+import it.matbell.ask.probes.ContinuousProbe;
+import it.matbell.ask.probes.OnEventProbe;
 import it.matbell.ask.workers.SimpleWorker;
 import it.matbell.ask.workers.ThreadWorker;
 import it.matbell.ask.workers.Worker;
 
-class SKManager extends Service {
+public class ASKManager extends Service {
+
+    public static boolean RUNNING = false;
 
     // Intent used to start the service
     public static final String SETUP_INTENT = "it.cnr.iit.mattia.ask.SETUP_INTENT";
@@ -63,6 +65,8 @@ class SKManager extends Service {
         super.onDestroy();
 
         for(Worker worker : workers) worker.stop();
+        if(fileChecker != null) fileChecker.stop();
+        RUNNING = false;
     }
 
     @Nullable
@@ -79,6 +83,8 @@ class SKManager extends Service {
         if(configuration != null)
             parseConfiguration(configuration);
 
+        RUNNING = true;
+
         return Service.START_STICKY;
     }
 
@@ -89,23 +95,23 @@ class SKManager extends Service {
      */
     private void parseConfiguration(String jsonConf){
 
-        SKSetup setup = SKSetup.parse(getApplicationContext(), jsonConf);
+        ASkSetup setup = ASkSetup.parse(getApplicationContext(), jsonConf);
 
         FileSender fileSender = null;
         if(setup.remoteLogger != null) fileSender = new FileSender(setup.remoteLogger);
 
         fileChecker = new FileChecker(getApplicationContext(), fileSender,
-                setup.zipperInterval, 2L);
+                setup.zipperInterval, setup.maxLogSizeMb);
 
-        for(SKBaseProbe probe : setup.probes) {
+        for(BaseProbe probe : setup.probes) {
 
             Worker worker = null;
 
-            if(probe instanceof SKOnEventProbe)
+            if(probe instanceof OnEventProbe)
                 worker = new SimpleWorker(probe, isFirstRun());
 
-            else if(probe instanceof SKContinuousProbe)
-                worker = new ThreadWorker((SKContinuousProbe) probe, true);
+            else if(probe instanceof ContinuousProbe)
+                worker = new ThreadWorker((ContinuousProbe) probe, true);
 
 
             if(worker != null){

@@ -18,37 +18,16 @@
  *
  */
 
-package it.matbell.ask.probes;
+package it.matbell.ask;
 
-import it.matbell.ask.controllers.BatteryController;
-import it.matbell.ask.model.BatteryInfo;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 
-/**
- * This probe monitors some information related to the batter.
- * Specifically, it monitors the following information:
- *  - battery level
- *  - if the device is charging
- *
- */
-@SuppressWarnings("unused")
-class SKBatteryProbe extends SKContinuousProbe{
-
+public class ASKBootReceiver extends BroadcastReceiver{
     @Override
-    public void init() {}
-
-    @Override
-    public void onFirstRun() {}
-
-    @Override
-    void onStop() {}
-
-    @Override
-    public void exec() {
-
-        BatteryInfo batteryInfo = BatteryController.getBatteryInfo(getContext());
-
-        if(batteryInfo != null){
-            logOnFile(true, batteryInfo.getDataToPrint());
-        }
+    public void onReceive(Context context, Intent intent) {
+        Intent startIntent = new Intent(context, ASKManager.class);
+        context.startService(startIntent);
     }
 }

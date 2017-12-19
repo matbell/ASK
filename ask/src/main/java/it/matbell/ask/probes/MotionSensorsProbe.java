@@ -28,13 +28,15 @@ import org.apache.commons.lang3.ArrayUtils;
 import it.matbell.ask.controllers.SKSensorMonitor;
 
 /**
- * Monitors sensors that measure various environmental parameters, such as ambient air temperature
- * and pressure, illumination, and humidity. Specifically, this probe monitors the following sensors:
+ * Monitors sensors that measure acceleration forces and rotational forces along three axes. This
+ * category includes accelerometers, gravity sensors, gyroscopes, and rotational vector sensors.
+ * Specifically, this probe monitors the following sensors:
  *
- *      - TEMPERATURE : Ambient air temperature in °C.
- *      - LIGHT : Illuminance in lx.
- *      - PRESSURE : Ambient air pressure in hPa or mbar, it depends on the hardware.
- *      - HUMIDITY : The percentage of the ambient relative humidity.
+ *      - ACCELEROMETER : Acceleration force along the x,y,z axes in m/s2
+ *      - GRAVITY : Force of gravity along the x,y,z axes in m/s2
+ *      - GYROSCOPE : Rate of rotation along the x,y,z axes in rad/s
+ *      - ACCELERATION : Acceleration force along the x,y,z axes in m/s2
+ *      - ROTATION : Rotation vector component along the x,y,z axes
  *
  *  Parameters:
  *
@@ -42,16 +44,17 @@ import it.matbell.ask.controllers.SKSensorMonitor;
  *      the statistics. The default value is 200 samples.
  *
  */
-@SuppressWarnings("all")
-class SKEnvironmentSensorProbe extends SKContinuousProbe {
+@SuppressWarnings("unused")
+class MotionSensorsProbe extends ContinuousProbe {
 
     private static final int DEFAULT_MAX_ELEMENTS = 200;
 
     private static final int[] MOTION_SENSORS = new int[]{
-            Sensor.TYPE_AMBIENT_TEMPERATURE,
-            Sensor.TYPE_LIGHT,
-            Sensor.TYPE_PRESSURE,
-            Sensor.TYPE_RELATIVE_HUMIDITY
+            Sensor.TYPE_ACCELEROMETER,
+            Sensor.TYPE_GRAVITY,
+            Sensor.TYPE_GYROSCOPE,
+            Sensor.TYPE_LINEAR_ACCELERATION,
+            Sensor.TYPE_ROTATION_VECTOR
     };
 
     private SKSensorMonitor skSensorMonitor;
@@ -63,7 +66,7 @@ class SKEnvironmentSensorProbe extends SKContinuousProbe {
 
         for (int sensorId : MOTION_SENSORS) {
             skSensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_STATUS_ACCURACY_HIGH,
-                    1, maxSamples);
+                    3, maxSamples);
         }
     }
 

@@ -1,90 +1,82 @@
-# Built-in Probes #
-
+# Built-in Probes
 
 * **General Information**
-    * [Audio](#SKAudioProbe)
-    * [Battery](#SKBatteryProbe)
-    * [Hardware](#SKHardwareInfoProbe)
-    * [Display](#SKDisplayProbe)
+    * [Audio](#AudioProbe)
+    * [Battery](#BatteryProbe)
+    * [Hardware](#HardwareInfoProbe)
+    * [Display](#DisplayProbe)
 * **Telephony**
-    * [Cells Information](#SKCellInfoProbe)
-    * [Phone calls](#SKCallsProbe)
+    * [Cells Information](#CellInfoProbe)
+    * [Phone calls](#CallsProbe)
 * **Calendar**
-    * [SKCalendarProbe](#SKCalendarProbe)
-    * [SKCurrentEventsProbe](#SKCurrentEventsProbe)
+    * [SKCalendarProbe](#CalendarProbe)
+    * [SKCurrentEventsProbe](#CurrentEventsProbe)
 * **Bluetooth**
-    * [Bluetooth connections](#SKBluetoothConnProbe)
-    * [Bluetooth scans](#SKBluetoothScanProbe)
+    * [Bluetooth connections](#BluetoothConnProbe)
+    * [Bluetooth scans](#BluetoothScanProbe)
 * **Wi-Fi**
-    * [Wi-Fi Access Points](#SKWiFiProbe)
-    * [Wi-Fi P2P scans](#SKWiFiP2PProbe)
+    * [Wi-Fi Access Points](#WiFiProbe)
+    * [Wi-Fi P2P scans](#WiFiP2PProbe)
 * **Sensors**
-    * [Activity Recognition](#SKActivityRecognitionProbe)
-    * [Environment](#SKEnvironmentSensorProbe)
-    * [Motion](#SKMotionSensorsProbe)
-    * [Position](#SKPositionSensorProbe)
+    * [Activity Recognition](#ActivityRecognitionProbe)
+    * [Environment](#EnvironmentSensorProbe)
+    * [Motion](#MotionSensorsProbe)
+    * [Position](#PositionSensorProbe)
 * **Applications**
-    * [Installed](#SKInstalledAppsProbe)
-    * [Running](#SKRunningAppsProbe)
+    * [Installed](#InstalledAppsProbe)
+    * [Running](#RunningAppsProbe)
 
+# General Information
 
-[//]: <> (=================== SK Audio Probe ==========================)
+### <a name="AudioProbe"></a>AudioProbe
 
-
-## <a name="SKAudioProbe"></a>SKAudioProbe
-
-Monitors different events related to the audio system.
+Monitors different events related to the audio system, e.g., the current
+music volume level, if the speaker is on, or if a pair of headset is
+connected to the local device.
 
 #### Returns
 
-Returns the following list of values:
+Returns the following values:
 
-NAME                | Value and Description
---------------------|--------------------------------------------
-RING_MODE           | _0_ (Silent), _1_ (Vibrate), _2_ (Normal)
-ALARM_VOLUME        | _\[0, 1\]_ Current volume level of the alarm.
-MUSIC_VOLUME        | _\[0, 1\]_ Current volume level of the music.
-NOTIFICATION_VOLUME | _\[0, 1\]_ Current volume level of the notifications.
-BT_SCO              | _TRUE/FALSE_ if a Bluetooth SCO device is connected.
-MIC_MUTE            | _TRUE/FALSE_ if the microphone is mute.
-MUSIC_ON            | _TRUE/FALSE_ if the music is on.
-SPEAKER_ON          | _TRUE/FALSE_ if the speaker is on.
-HEADSET             | _TRUE/FALSE_ if the headset (bot wired and Bluetooth) are connected
-
-
-[//]: <> (================== SK Battery Probe =========================)
+NAME                | Value                                 | Description
+--------------------|---------------------------------------|--------------------------------------------------
+RING_MODE           | 0 (Silent), 1 (Vibrate), 2 (Normal)   | Ring mode
+ALARM_VOLUME        | \[0, 1\]                              | Alarm volume level
+MUSIC_VOLUME        | \[0, 1\]                              | Music volume level
+NOTIFICATION_VOLUME | \[0, 1\]                              | Notifications volume level
+BT_SCO              | TRUE / FALSE                          | If a Bluetooth SCO device is connected
+MIC_MUTE            | TRUE / FALSE                          | If microphone is mute
+MUSIC_ON            | TRUE / FALSE                          | If music is on
+SPEAKER_ON          | TRUE / FALSE                          | If speaker is on
+HEADSET             | TRUE / FALSE                          | If headset (bot wired and Bluetooth) is connected
 
 
-## <a name="SKBatteryProbe"></a>SKBatteryProbe
+### <a name="BatteryProbe"></a>BatteryProbe
 
 Monitors the battery status.
 
 #### Returns
 
-Returns the following list of values:
+Returns the following values:
 
-NAME                | Value and Description
---------------------|--------------------------------------------
-BATTERY_PCT         | _\[0, 1\]_ Current battery level in percentage.
-CHARGING            | _TRUE/FALSE_ if the device is charging.
-USB_CHARGE          | _TRUE/FALSE_ if the device is charging through an USB cable.
-AC_CHARGE           | _TRUE/FALSE_ if the device is charging through an AC charger.
-WIRELESS_CHARGE     | _TRUE/FALSE_ if the device is charging through a Wireless charger.
+NAME                | Value                 | Description
+--------------------|-----------------------|--------------------
+BATTERY_PCT         | \[0, 1\]              | Current battery level
+PLUGGED             | TRUE / FALSE          | If the device is connected USB cable
 
 
-[//]: <> (================= SK Hardware Probe =========================)
+### <a name="HardwareInfoProbe"></a>HardwareInfoProbe
 
-
-## <a name="SKHardwareInfoProbe"></a>SKHardwareInfoProbe
-
-Fetches different information related to the device's hardware.
-Some information can be used to uniquely identify the user/device.
+Reads different information related to the device's hardware, e.g., the
+Wi-Fi Mac Address, the phone model, or the phone number associated to
+the SIM card.
+These information can be used to uniquely identify the user/device.
 
 #### Required Permissions
 
 ```
 android.permission.ACCESS_WIFI_STATE
-android.permissionCHANGE_WIFI_STATE
+android.permission.CHANGE_WIFI_STATE
 android.permission.BLUETOOTH
 android.permission.READ_PHONE_STATE
 android.permission.INTERNET
@@ -94,9 +86,9 @@ android.permission.INTERNET
 
 Returns the following information:
 
-NAME                | Value and Description
+NAME                | Description
 --------------------|--------------------------------------------
-ANDROID_ID          | A 64-bit number, unique to each combination of app-signing key, user, and device. This is only available on Android API >= 26.
+ANDROID_ID          | A 64-bit number, unique to each combination of app-signing key, user, and device. It is available only on Android API >= 26.
 WI_FI_MAC           | The MAC address associated to the Wi-Fi interface
 WI_FI_P2P_MAC       | The MAC address associated to the Wi-Fi P2P interface
 BT_MAC              | The MAC address associated to the Bluetooth interface
@@ -104,12 +96,10 @@ BRAND               | The device's brand
 MODEL               | The device's model
 MANUFACTURER        | The device's manufacturer
 DEVICE_ID           | The unique device ID (i.e., the IMEI for GSM and the MEID or ESN for CDMA phones)
+PHONE_NUMBER        | The phone number associated to the SIM card.
 
 
-[//]: <> (=================== SK Display Probe ========================)
-
-
-## <a name="SKDisplayProbe"></a>SKDisplayProbe
+### <a name="DisplayProbe"></a>DisplayProbe
 
 Monitors the display status.
 
@@ -123,10 +113,10 @@ STATE               | _0_ (UNKNOWN), _1_ (OFF), _2_ (ON), _3_ (DOZE), _4_ (DOZE_
 ROTATION            | _0_ (NO_ROTATION), _1_ (ROTATION_90), _2_ (ROTATION_180), _3_ (ROTATION_270). See the Android's [getRotation()](https://developer.android.com/reference/android/view/Display.html#getRotation()) method.
 
 
-[//]: <> (================= SK Cell Info Probe ========================)
+# Telephony Probes
 
 
-## <a name="SKCellInfoProbe"></a>SKCellInfoProbe
+### <a name="CellInfoProbe"></a>CellInfoProbe
 
 Monitors all observed cell information from all radios on the device
 including the primary and neighboring cells.
@@ -149,10 +139,7 @@ BS_ID               | The Base Station ID. Refer to the [android.telephony.CellI
 SIGNAL_LEVEL        | The signal strength as dBm.
 
 
-[//]: <> (==================== SK Calls Probe =========================)
-
-
-## <a name="SKCallsProbe"></a>SKCallsProbe
+### <a name="CallsProbe"></a>CallsProbe
 
 Monitors both incoming and outgoing phone calls.
 
@@ -173,10 +160,10 @@ PHONE_NUMBER        | Phone number
 INCOMING            | _TRUE/FALSE_ if it is an incoming call
 
 
-[//]: <> (================== SK Calendar Probe ========================)
+# Calendar
 
 
-## <a name="SKCalendarProbe"></a>SKCalendarProbe
+### <a name="CalendarProbe"></a>CalendarProbe
 
 Monitors the calendar events.
 
@@ -200,10 +187,7 @@ LOCATION            | Location of the event (if present)
 ALL_DAY             | _TRUE/FALSE_ if the event lasts all the day
 
 
-[//]: <> (================== SK Calendar Probe ========================)
-
-
-## <a name="SKCurrentEventsProbe"></a>SKCurrentEventsProbe
+### <a name="CurrentEventsProbe"></a>CurrentEventsProbe
 
 Monitors only the calendar events that are active at that time.
 
@@ -226,10 +210,10 @@ LOCATION            | Location of the event (if present)
 ALL_DAY             | _TRUE/FALSE_ if the event lasts all the day
 
 
-[//]: <> (============= SK Bluetoot Connections Probe =================)
+# Bluetooth
 
 
-## <a name="SKBluetoothConnProbe"></a>SKBluetoothConnProbe
+### <a name="BluetoothConnProbe"></a>BluetoothConnProbe
 
 Monitors the connections to bluetooth devices.
 
@@ -249,10 +233,7 @@ ADDRESS             | The device's Bluetooth MAC address.
 BT_CLASS            | The device's [Bluetooth class](https://developer.android.com/reference/android/bluetooth/BluetoothClass.Device.html).
 
 
-[//]: <> (================ SK Bluetoot Scans Probe ====================)
-
-
-## <a name="SKBluetoothScanProbe"></a>SKBluetoothScanProbe
+### <a name="BluetoothScanProbe"></a>BluetoothScanProbe
 
 Continuously performs Bluetooth scans to discover other devices in
 proximity.
@@ -274,10 +255,10 @@ ADDRESS             | The device's Bluetooth MAC address.
 BT_CLASS            | The device's [Bluetooth class](https://developer.android.com/reference/android/bluetooth/BluetoothClass.Device.html).
 
 
-[//]: <> (===================== SK Wi-Fi Probe ========================)
+# Wi-Fi
 
 
-## <a name="SKWiFiP2PProbe"></a>SKWiFiP2PProbe
+### <a name="WiFiP2PProbe"></a>WiFiP2PProbe
 
 Continuously performs Wi-Fi P2P scans to discover other devices in
 proximity.
@@ -298,10 +279,7 @@ NAME                | Value and Description
 ADDRESS             | The Wi-Fi P2P Mac address
 
 
-[//]: <> (================== SK Wi-Fi P2P Probe =======================)
-
-
-## <a name="SKWiFiProbe"></a>SKWiFiProbe
+### <a name="WiFiProbe"></a>WiFiProbe
 
 Continuously performs Wi-Fi scans to discover Access Points in proximity.
 
@@ -327,10 +305,10 @@ FREQUENCY           | The primary 20 MHz frequency (in MHz) of the channel over 
 CONNECTED           | _TRUE/FALSE_ if the device is currently connected to the Access Point
 
 
-[//]: <> (============= SK Activity Recognition Probe =================)
+# Sensors
 
 
-## <a name="SKActivityRecognitionProbe"></a>SKActivityRecognitionProbe
+### <a name="ActivityRecognitionProbe"></a>ActivityRecognitionProbe
 
 Monitors the current user activity using the Android's [Activity
 Recognition API](https://developers.google.com/location-context/activity-recognition/).
@@ -372,10 +350,7 @@ WALKING       | The device is on a user who is walking.
 UNKNOWN       | Unable to detect the current activity.
 
 
-[//]: <> (============== SK Environment Sensors Probe =================)
-
-
-## <a name="SKEnvironmentSensorProbe"></a>SKEnvironmentSensorProbe
+### <a name="EnvironmentSensorProbe"></a>EnvironmentSensorProbe
 
 Monitors sensors that measure various environmental parameters, such as
 ambient air temperature and pressure, illumination, and humidity.
@@ -422,10 +397,7 @@ Therefore, for each reading, this probe returns an array of
 4 (Sensors' dimensions) * 14 (Statistics) = **56 elements**.
 
 
-[//]: <> (================ SK Motion Sensors Probe ====================)
-
-
-## <a name="SKMotionSensorsProbe"></a>SKMotionSensorsProbe
+### <a name="MotionSensorsProbe"></a>MotionSensorsProbe
 
 Monitors sensors that measure acceleration forces and rotational forces
 along three axes. This category includes accelerometers, gravity
@@ -474,10 +446,7 @@ Therefore, for each reading, this probe returns an array of
 15 (Sensors' dimensions) * 14 (Statistics) = **210 elements**.
 
 
-[//]: <> (============== SK Position Sensors Probe ====================)
-
-
-## <a name="SKPositionSensorProbe"></a>SKPositionSensorProbe
+### <a name="PositionSensorProbe"></a>PositionSensorProbe
 
 Monitors sensors that measure the physical position of a device. This
 category includes orientation sensors and magnetometers.
@@ -524,10 +493,10 @@ Therefore, for each reading, this probe returns an array of
 10 (Sensors' dimensions) * 14 (Statistics) = **140 elements**.
 
 
-[//]: <> (================ SK Installed Apps Probe ====================)
+# Applications
 
 
-## <a name="SKInstalledAppsProbe"></a>SKInstalledAppsProbe
+### <a name="InstalledAppsProbe"></a>InstalledAppsProbe
 
 Monitors the installed applications.
 
@@ -540,10 +509,7 @@ NAME                | Value and Description
 PKG_NAME            | Name of the application's package
 
 
-[//]: <> (================= SK Running Apps Probe =====================)
-
-
-## <a name="SKRunningAppsProbe"></a>SKRunningAppsProbe
+### <a name="RunningAppsProbe"></a>RunningAppsProbe
 
 Monitors the running applications.
 
@@ -555,4 +521,5 @@ NAME                | Value and Description
 --------------------|--------------------------------------------
 NAME                | Process name
 IMPORTANCE          | Level of importance as defined in [RunningAppProcessInfo](https://developer.android.com/reference/android/app/ActivityManager.RunningAppProcessInfo.html#importance), e.g., if the app is in foreground or background mode.
+
 

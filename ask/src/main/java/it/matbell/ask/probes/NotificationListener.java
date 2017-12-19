@@ -28,7 +28,7 @@ import android.util.Log;
 
 import it.matbell.ask.commons.Utils;
 
-class SKNotificationListener extends NotificationListenerService {
+class NotificationListener extends NotificationListenerService {
 
     @Override
     public IBinder onBind(Intent intent) {

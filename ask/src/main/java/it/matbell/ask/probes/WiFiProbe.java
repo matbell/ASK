@@ -61,9 +61,9 @@ import it.matbell.ask.commons.Utils;
  *
  */
 @SuppressWarnings("unused")
-class SKWiFiProbe extends SKContinuousProbe {
+class WiFiProbe extends ContinuousProbe {
 
-    private static final String LOCK_KEY = SKWiFiProbe.class.getName();
+    private static final String LOCK_KEY = WiFiProbe.class.getName();
     private static final int MAX_RSSI_LEVELS = 4;
 
     private WifiManager wifiManager;
@@ -71,6 +71,7 @@ class SKWiFiProbe extends SKContinuousProbe {
     private WifiManager.WifiLock wifiLock;
     private String connectedBSSID;
 
+    @SuppressWarnings("all")
     private BroadcastReceiver scanResultsReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -91,11 +92,6 @@ class SKWiFiProbe extends SKContinuousProbe {
                                 WifiManager.calculateSignalLevel(result.level, MAX_RSSI_LEVELS),
                                 result.level, result.capabilities,
                                 result.frequency, String.valueOf(connected)), ","));
-
-                        Log.d(Utils.TAG, ""+Arrays.asList(result.SSID, result.BSSID,
-                                WifiManager.calculateSignalLevel(result.level, MAX_RSSI_LEVELS),
-                                result.level, result.capabilities,
-                                result.frequency));
                     }
 
                     if(data.size() != 0) logOnFile(true, data);
@@ -126,6 +122,7 @@ class SKWiFiProbe extends SKContinuousProbe {
     }
 
     @Override
+    @SuppressWarnings("all")
     public void exec() {
         if(wifiManager != null) {
 
@@ -144,6 +141,7 @@ class SKWiFiProbe extends SKContinuousProbe {
                     new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
             wifiManager.startScan();
+
         }else{
             Log.e(Utils.TAG, "WiFiManager is null in "+this.getClass().getName());
         }

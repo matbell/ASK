@@ -20,29 +20,38 @@
 
 package it.matbell.ask.probes;
 
+import java.util.List;
+
+import it.matbell.ask.controllers.CalendarController;
+import it.matbell.ask.model.CalendarEvent;
+
 /**
- * This class represents a continuous probe, which means that the exec() method is called every
- * <interval> seconds.
+ * @author Mattia Campana (m.campana@iit.cnr.it)
  *
- * Parameters:
- *  - "interval" : (requires) number of seconds between two consecutive executions of the probe.
+ * This probe monitors the current events saved in the user's calendars.
+ *
+ * Requires:
+ *
+ *  - "android.permission.READ_CALENDAR"
  *
  */
-public abstract class SKContinuousProbe extends SKBaseProbe {
-
-    private int interval;
-
-    public void setInterval(int interval){this.interval = interval;}
-    public int getInterval(){return interval;}
+@SuppressWarnings("unused")
+class CurrentCalendarEventsProbe extends ContinuousProbe {
 
     @Override
-    public abstract void init();
+    public void init() {}
 
     @Override
-    public abstract void onFirstRun();
+    public void onFirstRun() {}
 
     @Override
-    abstract void onStop();
+    void onStop() {}
 
-    public abstract void exec();
+    @Override
+    public void exec() {
+
+        List<CalendarEvent> events = CalendarController.getCurrentEvents(getContext());
+
+        if(events.size() > 0) logOnFile(true, events);
+    }
 }

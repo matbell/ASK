@@ -43,7 +43,7 @@ import it.matbell.ask.model.BTDevice;
  *
  */
 @SuppressWarnings("unused")
-class SKBluetoothScanProbe extends SKContinuousProbe {
+class BluetoothScanProbe extends ContinuousProbe {
 
     private BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
     private Set<BTDevice> devices = new HashSet<>();

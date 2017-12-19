@@ -45,7 +45,7 @@ import it.matbell.ask.model.Sms;
  *
  */
 @SuppressWarnings("unused")
-class SKSmsProbe extends SKOnEventProbe {
+class SmsProbe extends OnEventProbe {
 
     private OutGoingObserver outGoingObserver = new OutGoingObserver(new Handler());
     private SmsReceiver receiver;

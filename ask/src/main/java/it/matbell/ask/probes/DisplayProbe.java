@@ -34,7 +34,7 @@ import it.matbell.ask.model.DisplayInfo;
  *
  */
 @SuppressWarnings("unused")
-class SKDisplayProbe extends SKOnEventProbe {
+class DisplayProbe extends OnEventProbe {
 
     private DisplayManager displayManager;
     private BroadcastReceiver displayReceiver = new BroadcastReceiver() {

@@ -20,23 +20,26 @@
 
 package it.matbell.ask.probes;
 
-import java.util.List;
-
-import it.matbell.ask.controllers.CalendarController;
-import it.matbell.ask.model.CalendarEvent;
+import it.matbell.ask.controllers.AudioController;
+import it.matbell.ask.model.AudioInfo;
 
 /**
- * @author Mattia Campana (m.campana@iit.cnr.it)
- *
- * This probe monitors the current events saved in the user's calendars.
- *
- * Requires:
- *
- *  - "android.permission.READ_CALENDAR"
+ * This probe monitors several information related to the {@link android.media.AudioManager}.
+ * Specifically, it monitors the following information:
+ *  - if the ringer mode is on or off
+ *  - alarm volume
+ *  - music volume
+ *  - notification volume
+ *  - ring volume
+ *  - if a Bluetooth Sco is connected
+ *  - if a microphone is connected
+ *  - if the music is active
+ *  - if the speaker is on
+ *  - if a pair of headset is connected
  *
  */
 @SuppressWarnings("unused")
-class SKCurrentCalendarEventsProbe extends SKContinuousProbe {
+class AudioProbe extends ContinuousProbe {
 
     @Override
     public void init() {}
@@ -50,8 +53,10 @@ class SKCurrentCalendarEventsProbe extends SKContinuousProbe {
     @Override
     public void exec() {
 
-        List<CalendarEvent> events = CalendarController.getCurrentEvents(getContext());
+        AudioInfo audioInfo = AudioController.getAudioInfo(getContext());
 
-        if(events.size() > 0) logOnFile(true, events);
+        if(audioInfo != null){
+            logOnFile(true, audioInfo.getDataToPrint());
+        }
     }
 }

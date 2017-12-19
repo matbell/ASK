@@ -25,7 +25,7 @@ package it.matbell.ask.probes;
  * IntentFilters)
  *
  */
-public abstract class SKOnEventProbe extends SKBaseProbe {
+public abstract class OnEventProbe extends BaseProbe {
 
     @Override
     public abstract void init();

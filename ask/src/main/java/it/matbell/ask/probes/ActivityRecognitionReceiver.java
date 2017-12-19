@@ -32,16 +32,16 @@ import java.util.List;
 import it.matbell.ask.logs.FileLogger;
 
 /**
- * This IntentService has been used by the {@link SKActivityRecognitionProbe} to receive the intents
+ * This IntentService has been used by the {@link ActivityRecognitionProbe} to receive the intents
  * sent by the Android Activity Recognition.
  * Each activity is associated with a confidence level, which is an int between 0 and 100.
  *
  */
-public class SKActivityRecognitionReceiver extends IntentService {
+public class ActivityRecognitionReceiver extends IntentService {
 
-    private static final String TAG = SKActivityRecognitionReceiver.class.getName();
+    private static final String TAG = ActivityRecognitionReceiver.class.getName();
 
-    public SKActivityRecognitionReceiver(){
+    public ActivityRecognitionReceiver(){
         super(TAG);
     }
 
@@ -96,11 +96,11 @@ public class SKActivityRecognitionReceiver extends IntentService {
                 if(pos != -1) act[pos] = da.getConfidence();
             }
 
-            if(intent != null && intent.hasExtra(SKActivityRecognitionProbe.LOG_INTENT_FIELD) &&
-                    intent.getStringExtra(SKActivityRecognitionProbe.LOG_INTENT_FIELD) != null) {
+            if(intent != null && intent.hasExtra(ActivityRecognitionProbe.LOG_INTENT_FIELD) &&
+                    intent.getStringExtra(ActivityRecognitionProbe.LOG_INTENT_FIELD) != null) {
 
                 FileLogger.getInstance(getApplicationContext()).store(intent.getStringExtra(
-                        SKActivityRecognitionProbe.LOG_INTENT_FIELD), act, true);
+                        ActivityRecognitionProbe.LOG_INTENT_FIELD), act, true);
             }
         }
 

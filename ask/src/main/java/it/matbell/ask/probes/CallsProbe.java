@@ -50,7 +50,7 @@ import it.matbell.ask.model.Call;
  *
  */
 @SuppressWarnings("unused")
-class SKCallsProbe extends SKOnEventProbe {
+class CallsProbe extends OnEventProbe {
 
     private BroadcastReceiver callsReceiver = new BroadcastReceiver() {
         @Override

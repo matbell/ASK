@@ -20,43 +20,29 @@
 
 package it.matbell.ask.probes;
 
-import it.matbell.ask.controllers.AudioController;
-import it.matbell.ask.model.AudioInfo;
-
 /**
- * This probe monitors several information related to the {@link android.media.AudioManager}.
- * Specifically, it monitors the following information:
- *  - if the ringer mode is on or off
- *  - alarm volume
- *  - music volume
- *  - notification volume
- *  - ring volume
- *  - if a Bluetooth Sco is connected
- *  - if a microphone is connected
- *  - if the music is active
- *  - if the speaker is on
- *  - if a pair of headset is connected
+ * This class represents a continuous probe, which means that the exec() method is called every
+ * <interval> seconds.
+ *
+ * Parameters:
+ *  - "interval" : (requires) number of seconds between two consecutive executions of the probe.
  *
  */
-@SuppressWarnings("unused")
-class SKAudioProbe extends SKContinuousProbe {
+public abstract class ContinuousProbe extends BaseProbe {
+
+    private int interval;
+
+    public void setInterval(int interval){this.interval = interval;}
+    public int getInterval(){return interval;}
 
     @Override
-    public void init() {}
+    public abstract void init();
 
     @Override
-    public void onFirstRun() {}
+    public abstract void onFirstRun();
 
     @Override
-    void onStop() {}
+    abstract void onStop();
 
-    @Override
-    public void exec() {
-
-        AudioInfo audioInfo = AudioController.getAudioInfo(getContext());
-
-        if(audioInfo != null){
-            logOnFile(true, audioInfo.getDataToPrint());
-        }
-    }
+    public abstract void exec();
 }

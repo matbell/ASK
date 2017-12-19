@@ -46,7 +46,7 @@ import java.util.Arrays;
  *
  */
 @SuppressWarnings("unused")
-class SKLocationProbe extends SKContinuousProbe {
+class LocationProbe extends ContinuousProbe {
 
     private FusedLocationProviderClient locationProviderClient;
 

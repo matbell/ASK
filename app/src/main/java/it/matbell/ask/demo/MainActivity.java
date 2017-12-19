@@ -31,6 +31,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import it.matbell.ask.ASK;
+
 /**
  * @author Mattia Campana (m.campana@iit.cnr.it)
  */
@@ -69,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
         checkPermissions();
     }
 
+    private void startASK(){
+        ASK ask = new ASK(this, getResources().getString(R.string.ask_conf));
+        ask.start();
+    }
+
     private void checkPermissions(){
 
         boolean require = false;
@@ -83,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(require)
             ActivityCompat.requestPermissions(this, RUNTIME_PERMISSIONS, REQ_CODE);
+        else
+            startASK();
     }
 
     private boolean allPermissionsGranted(int[] granted){
@@ -101,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             case 0: {
 
                 if (allPermissionsGranted(grantResults)) {
-
+                    startASK();
                     Log.d(MainActivity.class.getName(), "Permissions granted");
 
                 } else {

@@ -50,9 +50,9 @@ import it.matbell.ask.commons.Utils;
  *
  */
 @SuppressWarnings("unused")
-class SKWiFiP2PProbe extends SKContinuousProbe {
+class WiFiP2PProbe extends ContinuousProbe {
 
-    private static final String LOCK_KEY = SKWiFiP2PProbe.class.getName();
+    private static final String LOCK_KEY = WiFiP2PProbe.class.getName();
     private static final int DISCOVERY_RESTART_DELAY = 5;
     private static final int DISCOVERY_DURATION = 60;
 

@@ -31,11 +31,10 @@ import java.io.FilenameFilter;
 public class FileChecker {
 
     private static final int DEFAULT_INTERVAL_MIN = 30;
-    //private static final long DEFAUL_MAX_LOGS_SIZE = 5242880L; // 5MB
-    private static final long DEFAUL_MAX_LOGS_SIZE = 2;
+    private static final long DEFAULT_MAX_LOGS_SIZE = 5242880L; // 5MB
 
     private int interval = DEFAULT_INTERVAL_MIN;
-    private long maxLogsSize = DEFAUL_MAX_LOGS_SIZE;
+    private long maxLogsSize = DEFAULT_MAX_LOGS_SIZE;
     private FileSender fileSender;
     private Context context;
 
@@ -48,13 +47,14 @@ public class FileChecker {
         }
     };
 
-    public FileChecker(Context context, FileSender fileSender, Integer interval, Long maxLogsSize){
+    public FileChecker(Context context, FileSender fileSender, Integer interval,
+                       Integer maxLogsSize){
 
         this.context = context;
         this.fileSender = fileSender;
 
         if(interval != null) this.interval = interval;
-        if(maxLogsSize != null) this.maxLogsSize = maxLogsSize;
+        if(maxLogsSize != null) this.maxLogsSize = maxLogsSize*1024*1024;
 
         this.interval *= (60*1000);
 
@@ -96,7 +96,7 @@ public class FileChecker {
                     }
                 });
 
-                fileSender.send(zips);
+                fileSender.send(context, zips);
 
             }
         }

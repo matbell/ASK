@@ -37,15 +37,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.matbell.ask.commons.Utils;
-import it.matbell.ask.probes.SKBaseProbe;
-import it.matbell.ask.probes.SKContinuousProbe;
+import it.matbell.ask.probes.BaseProbe;
+import it.matbell.ask.probes.ContinuousProbe;
 
 /**
  * This class parses and represents the list of probes requested by the user through the
  * configuration. The configuration should be specified using the Json format.
  *
  */
-class SKSetup {
+class ASkSetup {
 
     // Expected fields in the Json configuration
     private static final String JSON_PROBES = "probes";
@@ -56,15 +56,17 @@ class SKSetup {
 
     private static final String JSON_REMOTE_LOGGER = "remoteLoggerDest";
     private static final String JSON_ZIPPER_INTERVAL = "zipperInterval";
+    private static final String JSON_MAX_LOG_SIZE = "maxLogSizeMb";
 
     // Name of the package that contains probes
     private static final String PROBES_PKG = "it.matbell.ask.probes";
 
-    public List<SKBaseProbe> probes = new ArrayList<>();
+    public List<BaseProbe> probes = new ArrayList<>();
     String remoteLogger;
+    Integer maxLogSizeMb;
     int zipperInterval;
 
-    private SKSetup(){}
+    private ASkSetup(){}
 
     /**
      * Parses the Json configuration string.
@@ -75,9 +77,9 @@ class SKSetup {
      * @return              The SKSetup object containing the Probe objects specified in the Json
      *                      configuration
      */
-    static SKSetup parse(Context context, String jsonConf){
+    static ASkSetup parse(Context context, String jsonConf){
 
-        SKSetup skSetup = new SKSetup();
+        ASkSetup skSetup = new ASkSetup();
 
         try {
 
@@ -87,7 +89,7 @@ class SKSetup {
 
             for(int i = 0; i < jsonProbes.length(); i++){
 
-                SKBaseProbe probe = getProbeFromClass(jsonProbes.getJSONObject(i).toString());
+                BaseProbe probe = getProbeFromClass(jsonProbes.getJSONObject(i).toString());
 
                 if(probe != null){
                     probe.setContext(context);
@@ -101,6 +103,9 @@ class SKSetup {
 
             if(conf.has(JSON_ZIPPER_INTERVAL))
                 skSetup.zipperInterval = conf.getInt(JSON_ZIPPER_INTERVAL);
+
+            if(conf.has(JSON_MAX_LOG_SIZE))
+                skSetup.maxLogSizeMb = conf.getInt(JSON_MAX_LOG_SIZE);
 
 
         } catch (JSONException e) {
@@ -117,7 +122,7 @@ class SKSetup {
      *
      * @return                  The Probe object
      */
-    private static SKBaseProbe getProbeFromClass(String jsonObject){
+    private static BaseProbe getProbeFromClass(String jsonObject){
 
         GsonBuilder builder = new GsonBuilder();
         // Needed for the the Gson library bug -----------------------------------------------------
@@ -132,12 +137,12 @@ class SKSetup {
         JsonObject jsonProbe = new JsonParser().parse(jsonObject).getAsJsonObject();
         String className = jsonProbe.get(JSON_PROBE_NAME).getAsString();
 
-        SKBaseProbe probe = null;
+        BaseProbe probe = null;
 
         try{
 
             Class<?> clazz = Class.forName(PROBES_PKG+"."+className);
-            probe = (SKBaseProbe) gson.fromJson(jsonProbe, clazz);
+            probe = (BaseProbe) gson.fromJson(jsonProbe, clazz);
 
             probe = parseRequiredFields(probe, jsonProbe.getAsJsonObject(), className);
             probe = parseOptionalFields(probe, jsonProbe.getAsJsonObject());
@@ -162,17 +167,17 @@ class SKSetup {
      *
      * @return              the probe object with the optional parameters (if present)
      */
-    private static SKBaseProbe parseRequiredFields(SKBaseProbe probe,
-                                                   JsonObject jsonObject, String className){
+    private static BaseProbe parseRequiredFields(BaseProbe probe,
+                                                 JsonObject jsonObject, String className){
 
-        if(probe instanceof SKContinuousProbe){
+        if(probe instanceof ContinuousProbe){
 
             if(!jsonObject.has(JSON_PROBE_INTERVAL)){
                 Log.e(Utils.TAG, "Missing field "+JSON_PROBE_INTERVAL+" for "+className);
                 probe = null;
 
             }else{
-                ((SKContinuousProbe)probe).setInterval(jsonObject.get(
+                ((ContinuousProbe)probe).setInterval(jsonObject.get(
                         JSON_PROBE_INTERVAL).getAsInt());
             }
         }
@@ -189,7 +194,7 @@ class SKSetup {
      *
      * @return              the probe object with the optional parameters (if present)
      */
-    private static SKBaseProbe parseOptionalFields(SKBaseProbe probe, JsonObject jsonObject){
+    private static BaseProbe parseOptionalFields(BaseProbe probe, JsonObject jsonObject){
 
         if(jsonObject.has(JSON_PROBE_LOG_FILE))
             probe.setLogFile(jsonObject.get(JSON_PROBE_LOG_FILE).getAsString());

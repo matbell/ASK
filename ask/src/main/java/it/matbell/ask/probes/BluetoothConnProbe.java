@@ -40,7 +40,7 @@ import it.matbell.ask.model.BTDevice;
  *  - "android.permission.BLUETOOTH"
  */
 @SuppressWarnings("unused")
-class SKBluetoothConnProbe extends SKOnEventProbe {
+class BluetoothConnProbe extends OnEventProbe {
 
     private Set<BTDevice> connectedDevices = new HashSet<>();
     private BTEventsReceiver receiver;

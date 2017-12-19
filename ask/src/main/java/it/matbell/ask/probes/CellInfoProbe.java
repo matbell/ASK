@@ -37,7 +37,7 @@ import it.matbell.ask.controllers.CellController;
  *
  */
 @SuppressWarnings("unused")
-class SKCellInfoProbe extends SKContinuousProbe {
+class CellInfoProbe extends ContinuousProbe {
 
     @Override
     public void init() {}

@@ -22,11 +22,11 @@ package it.matbell.ask.workers;
 
 import android.os.Handler;
 
-import it.matbell.ask.probes.SKBaseProbe;
+import it.matbell.ask.probes.BaseProbe;
 
 public class SimpleWorker extends Worker {
 
-    public SimpleWorker(SKBaseProbe probe, boolean isFirstRun){
+    public SimpleWorker(BaseProbe probe, boolean isFirstRun){
         super(probe, isFirstRun);
     }
 

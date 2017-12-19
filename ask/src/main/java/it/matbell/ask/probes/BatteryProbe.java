@@ -18,35 +18,37 @@
  *
  */
 
-package it.matbell.ask;
+package it.matbell.ask.probes;
 
-import android.content.Context;
-import android.content.Intent;
+import it.matbell.ask.controllers.BatteryController;
+import it.matbell.ask.model.BatteryInfo;
 
+/**
+ * This probe monitors some information related to the batter.
+ * Specifically, it monitors the following information:
+ *  - battery level
+ *  - if the device is charging
+ *
+ */
 @SuppressWarnings("unused")
-public class AndroidSensingKit {
+class BatteryProbe extends ContinuousProbe {
 
-    private String jsonConfiguration;
-    private Context context;
+    @Override
+    public void init() {}
 
-    /**
-     * ASK Contructor.
-     *
-     * @param context               The application's context.
-     * @param jsonConfiguration     The ASK configuration in Json format.
-     */
-    public AndroidSensingKit(Context context, String jsonConfiguration){
-        this.context = context;
-        this.jsonConfiguration = jsonConfiguration;
-    }
+    @Override
+    public void onFirstRun() {}
 
-    /**
-     * Starts the background service and probes.
-     */
-    public void start(){
-        Intent intent = new Intent(context, SKManager.class);
-        intent.putExtra(SKManager.SETUP_KEY, jsonConfiguration);
-        intent.setAction(SKManager.SETUP_INTENT);
-        context.startService(intent);
+    @Override
+    void onStop() {}
+
+    @Override
+    public void exec() {
+
+        BatteryInfo batteryInfo = BatteryController.getBatteryInfo(getContext());
+
+        if(batteryInfo != null){
+            logOnFile(true, batteryInfo.getDataToPrint());
+        }
     }
 }

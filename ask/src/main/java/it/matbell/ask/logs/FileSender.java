@@ -20,6 +20,9 @@
 
 package it.matbell.ask.logs;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -29,6 +32,14 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import it.matbell.ask.commons.Utils;
+
+/**
+ * Sends log files to the backend specified in the Json configuration.
+ *
+ * Permissions required:
+ *      - android.permission.ACCESS_NETWORK_STATE
+ */
 public class FileSender {
 
     private String backendUrl;
@@ -37,28 +48,38 @@ public class FileSender {
         this.backendUrl = backendUrl;
     }
 
-    public void send(File[] files){
+    @SuppressWarnings("all")
+    void send(Context context, File[] files){
 
-        if(files != null) {
+        ConnectivityManager connManager = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-            for(File file : files)
+        if(files != null && mWifi.isConnected()) {
+
+            for(File file : files) {
+
+                Log.d(Utils.TAG, FileSender.class.getName() + " : Sending " +
+                        file.getAbsolutePath() + " to the backend");
+
                 new AsyncSender(backendUrl).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file);
+            }
         }
 
     }
 
-    private static class AsyncSender extends AsyncTask<File, Void, String> {
+    private static class AsyncSender extends AsyncTask<File, Void, Void> {
 
         private String backendUrl;
 
         AsyncSender(String backendUrl){ this.backendUrl = backendUrl; }
 
         @Override
-        protected String doInBackground(File... files) {
+        protected Void doInBackground(File... files) {
+
+            File file = files[0];
 
             try {
-
-                File file = files[0];
 
                 HttpURLConnection conn;
                 DataOutputStream dos;
@@ -89,13 +110,15 @@ public class FileSender {
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Connection", "Keep-Alive");
                         conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-                        conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                        conn.setRequestProperty("uploaded_file", fileName);
+                        conn.setRequestProperty("Content-Type", "multipart/form-data;" +
+                                "boundary=" + boundary);
+                        conn.setRequestProperty("log", fileName);
 
                         dos = new DataOutputStream(conn.getOutputStream());
 
                         dos.writeBytes(twoHyphens + boundary + lineEnd);
-                        dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
+                        dos.writeBytes("Content-Disposition: form-data; name=\"log\"" +
+                                ";filename=\""
                                 + fileName + "\"" + lineEnd);
 
                         dos.writeBytes(lineEnd);
@@ -120,23 +143,15 @@ public class FileSender {
 
                         }
 
-                        // send multipart form data necesssary after file
-                        // data...
                         dos.writeBytes(lineEnd);
                         dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
-                        // Responses from the server (code and message)
-                        int serverResponseCode = conn.getResponseCode();
-                        String serverResponseMessage = conn.getResponseMessage();
-
-                        if (serverResponseCode == 200) {
-
-                            // messageText.setText(msg);
-                            //Toast.makeText(ctx, "File Upload Complete.",
-                            //      Toast.LENGTH_SHORT).show();
-
-                            // recursiveDelete(mDirectory1);
-
+                        if (conn.getResponseCode() == 200) {
+                            file.delete();
+                        }else{
+                            Log.e(Utils.TAG, FileSender.class.getName() + " : Server" +
+                                    "response ("+conn.getResponseCode()+") : "
+                                    + conn.getResponseMessage());
                         }
 
                         // close the streams //
@@ -146,26 +161,17 @@ public class FileSender {
 
                     } catch (Exception e) {
 
-                        // dialog.dismiss();
-                        Log.e("Sender", e.getMessage());
+                        Log.e(Utils.TAG, FileSender.class.getName() + " : " + e.getMessage());
 
                     }
-                    // dialog.dismiss();
-
-                } // End else block
+                }
 
 
             } catch (Exception ex) {
-                // dialog.dismiss();
 
-                Log.e("Sender", ex.getMessage());
+                Log.e(Utils.TAG, FileSender.class.getName() + " : " + ex.getMessage());
             }
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
+            return null;
         }
     }
 }
