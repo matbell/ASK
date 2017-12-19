@@ -1,0 +1,84 @@
+/*
+ * Copyright (c) 2017. Mattia Campana, m.campana@iit.cnr.it, campana.mattia@gmail.com
+ *
+ * This file is part of Android Sensing Kit (ASK).
+ *
+ * Android Sensing Kit (ASK) is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Android Sensing Kit (ASK) is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Android Sensing Kit (ASK).  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+package it.matbell.ask.controllers;
+
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+
+import java.util.HashMap;
+
+import it.matbell.ask.commons.SensorSamples;
+
+public class SKSensorMonitor {
+
+    private static SKSensorMonitor instance;
+
+    @SuppressWarnings("all")
+    private HashMap<Integer, SensorSamples> data = new HashMap<>();
+    private SensorManager sensorManager;
+
+    private final SensorEventListener listener = new SensorEventListener() {
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            data.get(event.sensor.getType()).newVSample(event.values);
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    };
+
+    public static SKSensorMonitor getInstance(Context context){
+
+        if(instance == null) instance = new SKSensorMonitor(context);
+        return instance;
+    }
+
+    private SKSensorMonitor(Context context){
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+    }
+
+    public void registerSensor(int sensorId, int accuracy, int dimensions, int maxElements){
+
+        data.put(sensorId, new SensorSamples(dimensions, maxElements));
+
+        Sensor sensor = sensorManager.getDefaultSensor(sensorId);
+        if (sensor != null)
+            sensorManager.registerListener(listener, sensor, accuracy);
+    }
+
+    public void unRegisterSensor(int sensorId){
+
+        sensorManager.unregisterListener(listener, sensorManager.getDefaultSensor(sensorId));
+        data.remove(sensorId);
+    }
+
+    public double[] getStats(int sensorId){
+        return data.get(sensorId).getStatistics();
+    }
+
+    public void resetSamples(int sensorId){
+        data.get(sensorId).reset();
+    }
+}

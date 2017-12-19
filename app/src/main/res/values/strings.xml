@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">ASKDemo</string>
+    <string name="ask_conf">
+        {
+            "zipperInterval" : 2,
+            "remoteLoggerDest" : \"http://mcampana.iit.cnr.it/contextmonitor/upload.php\",
+            "probes" : [
+                {
+                    "name" : "SKActivityRecognitionProbe",
+                    "updateInterval" : 60,
+                    "logFile" : "activity.csv"
+                },
+                {
+                    "name" : "SKAudioProbe",
+                    "interval" : 60,
+                    "logFile" : "audio.csv"
+                },
+                {
+                    "name" : "SKBatteryProbe",
+                    "interval" : 60,
+                    "logFile" : "battery.csv"
+                },
+                {
+                    "name" : "SKBluetoothConnProbe",
+                    "logFile" : "bt_conn.csv"
+                },
+                {
+                    "name" : "SKBluetoothScanProbe",
+                    "interval" : 60,
+                    "logFile" : "bt_scan.csv"
+                },
+                {
+                    "name" : "SKCallsProbe",
+                    "logFile" : "calls.csv"
+                },
+                {
+                    "name" : "SKCellInfoProbe",
+                    "interval" : 60,
+                    "logFile" : "cells.csv"
+                },
+                {
+                    "name" : "SKCurrentCalendarEventsProbe",
+                    "interval" : 60,
+                    "logFile" : "calendar_current_events.csv"
+                },
+                {
+                    "name" : "SKDisplayProbe",
+                    "interval" : 60,
+                    "logFile" : "display.csv"
+                },
+                {
+                    "name" : "SKEnvironmentSensorProbe",
+                    "interval" : 60,
+                    "logFile" : "environment_sensors.csv"
+                },
+                {
+                    "name" : "SKMotionSensorsProbe",
+                    "interval" : 60,
+                    "logFile" : "motion_sensors.csv"
+                },
+                {
+                    "name" : "SKPositionSensorProbe",
+                    "interval" : 60,
+                    "logFile" : "position_sensors.csv"
+                },
+                {
+                    "name" : "SKInstalledAppsProbe",
+                    "interval" : 60,
+                    "logFile" : "installed_apps.csv"
+                },
+                {
+                    "name" : "SKLocationProbe",
+                    "interval" : 60,
+                    "logFile" : "location.csv"
+                },
+                {
+                    "name" : "SKRunningApplicationsProbe",
+                    "interval" : 60,
+                    "logFile" : "running_apps.csv"
+                },
+                {
+                    "name" : "SKAppsUsageProbe",
+                    "interval" : 60,
+                    "logFile" : "apps_usage.csv"
+                },
+                {
+                    "name" : "SKWiFiProbe",
+                    "interval" : 180,
+                    "logFile" : "wifi_scans.csv"
+                },
+                {
+                    "name" : "SKWiFiP2PProbe",
+                    "interval" : 120,
+                    "startDelay" : 120,
+                    "logFile" : "wifi_p2p_scans.csv"
+                },
+                {
+                    "name" : "SKSmsProbe",
+                    "logFile" : "sms.csv"
+                },
+                {
+                    "name" : "SKCameraEventsProbe",
+                    "logFile" : "camera_events.csv"
+                }
+            ]
+        }
+    </string>
+    <string name="service_label">SKNotificationListener</string>
+</resources>

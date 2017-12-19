@@ -1,0 +1,103 @@
+/*
+ * Copyright (c) 2017. Mattia Campana, m.campana@iit.cnr.it, campana.mattia@gmail.com
+ *
+ * This file is part of Android Sensing Kit (ASK).
+ *
+ * Android Sensing Kit (ASK) is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Android Sensing Kit (ASK) is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Android Sensing Kit (ASK).  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+package it.matbell.ask.controllers;
+
+import android.content.Context;
+import android.os.Build;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
+
+import it.matbell.ask.commons.Utils;
+
+public class HardwareInfoController {
+
+    @SuppressWarnings("all")
+    public static String getAndroidID(Context context){
+        return Settings.Secure.getString(context.getApplicationContext()
+                .getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    public static String getWiFiMac() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:",b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+            Log.e(Utils.TAG, "Error reading WiFi Mac address");
+        }
+
+        return "02:00:00:00:00:00";
+    }
+
+    @SuppressWarnings("all")
+    public static String getBTMac(Context context){
+        return  android.provider.Settings.Secure.getString(context.getContentResolver(),
+                "bluetooth_address");
+    }
+
+    public static String getPhoneBrand(){
+        return Build.BRAND;
+    }
+
+    public static String getPhoneModel(){
+        return Build.MODEL;
+    }
+
+    public static String getManufacturer(){
+        return Build.MANUFACTURER;
+    }
+
+    @SuppressWarnings("all")
+    public static String getDeviceID(Context context){
+
+        return ((TelephonyManager) context.getApplicationContext()
+                .getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+
+    }
+
+    @SuppressWarnings("all")
+    public static String getPhoneNumber(Context context){
+        TelephonyManager tMgr = (TelephonyManager) context.getSystemService(
+                Context.TELEPHONY_SERVICE);
+        return  tMgr.getLine1Number();
+    }
+}
