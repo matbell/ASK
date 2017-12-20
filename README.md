@@ -58,7 +58,8 @@ TODO
 
 ## License
 
-`Copyright (c) 2017. Mattia Campana, m.campana@iit.cnr.it,
+```
+Copyright (c) 2017. Mattia Campana, m.campana@iit.cnr.it,
 campana.mattia@gmail.com
 
 This file is part of Android Sensing Kit (ASK).
@@ -76,3 +77,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Android Sensing Kit (ASK).  If not, see
 <http://www.gnu.org/licenses/>.`
+```
+
+
+This library is available under the GNU Lesser General Public License 3.0, allowing to use the library in your applications.
