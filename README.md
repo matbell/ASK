@@ -1,6 +1,6 @@
 # Android Sensing Kit
 
-![alt text](https://user-images.githubusercontent.com/1859476/34231801-4b60d54a-e592-11e7-9abc-876c4add81f5.png)
+![alt text](https://user-images.githubusercontent.com/1859476/34232195-14e95404-e594-11e7-8cc8-6361b50433d5.png)
 
 **A**ndroid **S**ensing **K**it (**ASK**) is a development framework
 written in Java, designed for large-scale sensing experiments with
