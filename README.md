@@ -44,8 +44,6 @@ data:
    * **Location**
    * **Applications** (installed and running statistics)
 
-
-
 ## Installing the library
 
 TODO
@@ -54,9 +52,49 @@ TODO
 
 ### Configuration
 
-TODO
+ASK configuration is in the JSON format. For example, the following
+configuration requires to monitor two different things: the user's
+activity (`ActivityRecognitionProbe`), and the battery status
+(`BatteryProbe`). The first probe is executed every 5 minutes and data
+related to the user's activity is stored in a file named `activity.csv`,
+while the second probe is executed every 60 seconds and stores its data
+in another file, called `battery.csv`.
+
+```json
+{
+    "probes" : [
+        {
+            "name" : "ActivityRecognitionProbe",
+            "updateInterval" : 300,
+            "logFile" : "activity.csv"
+        },
+        {
+            "name" : "BatteryProbe",
+            "interval" : 60,
+            "logFile" : "battery.csv"
+        }
+    ]
+}
+```
 
 ### Start ASK
+
+Starting ASK is very simple. The following lines load the configuration
+and start the background service which executes the required probes
+until it is stopped.
+
+```java
+ASK ask = new ASK(this, getResources().getString(R.string.ask_conf));
+ask.start();
+```
+
+### Stop ASK
+
+To stop the probes execution, use the following code:
+
+```java
+ask.stop();
+```
 
 ## License
 
@@ -80,6 +118,5 @@ You should have received a copy of the GNU General Public License
 along with Android Sensing Kit (ASK).  If not, see
 <http://www.gnu.org/licenses/>.`
 ```
-
 
 This library is available under the GNU Lesser General Public License 3.0, allowing to use the library in your applications.
