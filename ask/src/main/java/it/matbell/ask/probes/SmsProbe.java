@@ -45,9 +45,9 @@ import it.matbell.ask.model.Sms;
  *
  */
 @SuppressWarnings("unused")
-class SmsProbe extends OnEventProbe {
+public class SmsProbe extends OnEventProbe {
 
-    private OutGoingObserver outGoingObserver = new OutGoingObserver(new Handler());
+    private OutGoingObserver outGoingObserver;
     private SmsReceiver receiver;
     private long lastSmsId;
 
@@ -60,8 +60,12 @@ class SmsProbe extends OnEventProbe {
         }
     };
 
+    public SmsProbe(){}
+
     @Override
     public void init() {
+
+        outGoingObserver = new OutGoingObserver(new Handler());
 
         receiver = new SmsReceiver();
 

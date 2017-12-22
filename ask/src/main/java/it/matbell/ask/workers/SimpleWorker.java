@@ -33,8 +33,6 @@ public class SimpleWorker extends Worker {
     @Override
     public void start() {
 
-        getProbe().init();
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

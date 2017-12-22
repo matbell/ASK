@@ -22,10 +22,11 @@ package it.matbell.ask.probes;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import it.matbell.ask.controllers.SKSensorMonitor;
+import it.matbell.ask.controllers.SensorMonitor;
 
 /**
  * Monitors sensors that measure various environmental parameters, such as ambient air temperature
@@ -54,15 +55,15 @@ class EnvironmentSensorProbe extends ContinuousProbe {
             Sensor.TYPE_RELATIVE_HUMIDITY
     };
 
-    private SKSensorMonitor skSensorMonitor;
+    private SensorMonitor sensorMonitor;
     private int maxSamples = DEFAULT_MAX_ELEMENTS;
 
     @Override
     public void init() {
-        skSensorMonitor = SKSensorMonitor.getInstance(getContext());
+        sensorMonitor = new SensorMonitor(getContext(), MOTION_SENSORS.length);
 
         for (int sensorId : MOTION_SENSORS) {
-            skSensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_STATUS_ACCURACY_HIGH,
+            sensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_STATUS_ACCURACY_HIGH,
                     1, maxSamples);
         }
     }
@@ -72,7 +73,7 @@ class EnvironmentSensorProbe extends ContinuousProbe {
 
     @Override
     void onStop() {
-        for (int sensorId : MOTION_SENSORS) skSensorMonitor.unRegisterSensor(sensorId);
+        for (int sensorId : MOTION_SENSORS) sensorMonitor.unRegisterSensor(sensorId);
     }
 
     @Override
@@ -86,12 +87,12 @@ class EnvironmentSensorProbe extends ContinuousProbe {
 
         for (int sensorId : MOTION_SENSORS) {
 
-            double[] sensorData = skSensorMonitor.getStats(sensorId);
+            double[] sensorData = sensorMonitor.getStats(sensorId);
 
             if(stats == null) stats = sensorData;
             else stats = ArrayUtils.addAll(stats, sensorData);
 
-            skSensorMonitor.resetSamples(sensorId);
+            sensorMonitor.resetSamples(sensorId);
         }
 
         logOnFile(stats, true);

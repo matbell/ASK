@@ -45,7 +45,7 @@ import it.matbell.ask.probes.ContinuousProbe;
  * configuration. The configuration should be specified using the Json format.
  *
  */
-class ASkSetup {
+class ASKSetup {
 
     // Expected fields in the Json configuration
     private static final String JSON_PROBES = "probes";
@@ -64,9 +64,9 @@ class ASkSetup {
     public List<BaseProbe> probes = new ArrayList<>();
     String remoteLogger;
     Integer maxLogSizeMb;
-    int zipperInterval;
+    Integer zipperInterval;
 
-    private ASkSetup(){}
+    private ASKSetup(){}
 
     /**
      * Parses the Json configuration string.
@@ -77,9 +77,9 @@ class ASkSetup {
      * @return              The SKSetup object containing the Probe objects specified in the Json
      *                      configuration
      */
-    static ASkSetup parse(Context context, String jsonConf){
+    static ASKSetup parse(Context context, String jsonConf){
 
-        ASkSetup skSetup = new ASkSetup();
+        ASKSetup skSetup = new ASKSetup();
 
         try {
 
@@ -129,7 +129,7 @@ class ASkSetup {
         // https://stackoverflow.com/questions/32431279/android-m-retrofit-json-cant-make-field-
         // constructor-accessible
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
-        builder.disableHtmlEscaping();
+        builder.serializeNulls();
         //------------------------------------------------------------------------------------------
 
         Gson gson = builder.create();
@@ -151,7 +151,7 @@ class ASkSetup {
             Log.e(Utils.TAG, "Probe "+className+" not found.");
 
         } catch (Exception e){
-            Log.e(Utils.TAG, e.getMessage());
+            Log.e(Utils.TAG, "Error creating probe: "+e.getMessage());
         }
 
         return probe;

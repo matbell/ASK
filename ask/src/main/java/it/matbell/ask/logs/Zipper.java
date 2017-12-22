@@ -40,7 +40,7 @@ class Zipper {
     private String baseDir;
     private Context context;
 
-    Zipper(Context context){
+    public Zipper(Context context){
 
         this.context = context;
         Storage storage = new Storage(context.getApplicationContext());
@@ -48,7 +48,7 @@ class Zipper {
 
     }
 
-    String zip(File[] files){
+    public String zip(File[] files){
 
         List<String> fileList = new ArrayList<>();
         String zipFile = null;

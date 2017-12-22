@@ -2,8 +2,7 @@
     <string name="app_name">ASKDemo</string>
     <string name="ask_conf">
         {
-            "zipperInterval" : 2,
-            "remoteLoggerDest" : \"http://mcampana.iit.cnr.it/contextmonitor/upload.php\",
+            "zipperInterval" : 30,
             "probes" : [
                 {
                     "name" : "ActivityRecognitionProbe",

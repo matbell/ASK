@@ -52,8 +52,7 @@ public class FileChecker {
 
         this.context = context;
         this.fileSender = fileSender;
-
-        if(interval != null) this.interval = interval;
+        this.interval = interval;
         if(maxLogsSize != null) this.maxLogsSize = maxLogsSize*1024*1024;
 
         this.interval *= (60*1000);

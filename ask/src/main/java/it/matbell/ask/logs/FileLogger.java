@@ -49,9 +49,7 @@ public class FileLogger {
     private FileLogger(Context context){
 
         storage = new Storage(context.getApplicationContext());
-
         basePath = storage.getExternalStorageDirectory() + File.separator + BASE_DIR;
-        storage.createDirectory(basePath);
     }
 
     public void store(String fileName, double[] data, boolean withTimeStamp){
@@ -75,21 +73,29 @@ public class FileLogger {
         store(StringUtils.join(data, SEP), fileName, withTimeStamp);
     }
 
-    private void store(String content, String fileName, boolean withTimeStamp){
+    private void store(final String content, final String fileName, final boolean withTimeStamp){
 
-        String path = basePath+File.separator+fileName;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        Date currentTime = Calendar.getInstance().getTime();
+                if(!storage.isDirectoryExists(basePath)) storage.createDirectory(basePath);
 
-        String toWrite;
+                String path = basePath+File.separator+fileName;
 
-        if(withTimeStamp) toWrite = currentTime.getTime() + SEP + content;
-        else toWrite = content;
+                Date currentTime = Calendar.getInstance().getTime();
 
-        if(!storage.isFileExist(path))
-            storage.createFile(path, toWrite+"\n");
-        else
-            storage.appendFile(path, toWrite);
+                String toWrite;
 
+                if(withTimeStamp) toWrite = currentTime.getTime() + SEP + content;
+                else toWrite = content;
+
+                if(!storage.isFileExist(path))
+                    storage.createFile(path, toWrite+"\n");
+                else
+                    storage.appendFile(path, toWrite);
+
+            }
+        }).start();
     }
 }

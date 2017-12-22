@@ -25,17 +25,14 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
-import java.util.HashMap;
+import android.util.SparseArray;
 
 import it.matbell.ask.commons.SensorSamples;
 
-public class SKSensorMonitor {
-
-    private static SKSensorMonitor instance;
+public class SensorMonitor {
 
     @SuppressWarnings("all")
-    private HashMap<Integer, SensorSamples> data = new HashMap<>();
+    private SparseArray<SensorSamples> data;
     private SensorManager sensorManager;
 
     private final SensorEventListener listener = new SensorEventListener() {
@@ -49,13 +46,8 @@ public class SKSensorMonitor {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
     };
 
-    public static SKSensorMonitor getInstance(Context context){
-
-        if(instance == null) instance = new SKSensorMonitor(context);
-        return instance;
-    }
-
-    private SKSensorMonitor(Context context){
+    public SensorMonitor(Context context, int capacity){
+        data = new SparseArray<>(capacity);
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
     }
 

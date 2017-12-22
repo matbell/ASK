@@ -29,7 +29,7 @@ import java.util.List;
 
 public class Utils {
 
-    public static final String TAG = "SensKit";
+    public static final String TAG = "ASK";
 
     public static WifiManager.WifiLock acquireWifiLock(WifiManager wifiManager,
                                                         WifiManager.WifiLock wifiLock,

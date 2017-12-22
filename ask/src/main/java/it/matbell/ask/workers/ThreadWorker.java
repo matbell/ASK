@@ -61,8 +61,6 @@ public class ThreadWorker extends Worker {
 
             try {
 
-                getProbe().init();
-
                 sleep(getProbe().getStartDelay() * 1000);
 
                 if(isFirstRun()) getProbe().onFirstRun();

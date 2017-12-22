@@ -52,4 +52,13 @@ public class ASK {
             context.startService(intent);
         }
     }
+
+    public void stop(){
+
+        if(ASKManager.RUNNING){
+
+            context.stopService(new Intent(context, ASKManager.class));
+        }
+
+    }
 }

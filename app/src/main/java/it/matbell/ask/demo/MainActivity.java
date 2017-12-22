@@ -30,8 +30,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import it.matbell.ask.ASK;
+import it.matbell.ask.ASKManager;
 
 /**
  * @author Mattia Campana (m.campana@iit.cnr.it)
@@ -57,11 +60,12 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.READ_CALENDAR
     };
+    private ASK ask;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState,
-                         @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
     }
 
     @Override
@@ -72,8 +76,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startASK(){
-        ASK ask = new ASK(this, getResources().getString(R.string.ask_conf));
+        ask = new ASK(this, getResources().getString(R.string.ask_conf));
         ask.start();
+    }
+
+    private void stopASK(){
+        if(ask != null){
+            ask.stop();
+        }
+    }
+
+    public void onControlClicked(View view){
+
+        if(!ASKManager.RUNNING){
+            startASK();
+            ((Button)view).setText("STOP READING");
+
+        }else{
+            stopASK();
+            ((Button)view).setText("START NEW READING");
+        }
     }
 
     private void checkPermissions(){
@@ -90,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(require)
             ActivityCompat.requestPermissions(this, RUNTIME_PERMISSIONS, REQ_CODE);
-        else
-            startASK();
     }
 
     private boolean allPermissionsGranted(int[] granted){
@@ -110,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
             case 0: {
 
                 if (allPermissionsGranted(grantResults)) {
-                    startASK();
                     Log.d(MainActivity.class.getName(), "Permissions granted");
 
                 } else {

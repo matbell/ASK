@@ -23,6 +23,7 @@ package it.matbell.ask;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
@@ -78,12 +79,13 @@ public class ASKManager extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        String configuration = getConfiguration(intent);
+        if(!RUNNING) {
+            final String configuration = getConfiguration(intent);
 
-        if(configuration != null)
             parseConfiguration(configuration);
 
-        RUNNING = true;
+            RUNNING = true;
+        }
 
         return Service.START_STICKY;
     }
@@ -94,14 +96,17 @@ public class ASKManager extends Service {
      * @param jsonConf      The Json configuration
      */
     private void parseConfiguration(String jsonConf){
+        new ParseTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, jsonConf);
+    }
 
-        ASkSetup setup = ASkSetup.parse(getApplicationContext(), jsonConf);
+    void startProbes(ASKSetup setup ){
 
         FileSender fileSender = null;
         if(setup.remoteLogger != null) fileSender = new FileSender(setup.remoteLogger);
 
-        fileChecker = new FileChecker(getApplicationContext(), fileSender,
-                setup.zipperInterval, setup.maxLogSizeMb);
+        if(setup.zipperInterval != null)
+            fileChecker = new FileChecker(getApplicationContext(), fileSender,
+                    setup.zipperInterval, setup.maxLogSizeMb);
 
         for(BaseProbe probe : setup.probes) {
 
@@ -115,6 +120,7 @@ public class ASKManager extends Service {
 
 
             if(worker != null){
+
                 worker.start();
                 workers.add(worker);
             }
@@ -171,5 +177,18 @@ public class ASKManager extends Service {
                     PREF_LAST_CONFIG_KEY, configuration).apply();
 
         return configuration;
+    }
+
+    private class ParseTask extends AsyncTask<String, Void, ASKSetup>{
+
+        @Override
+        protected ASKSetup doInBackground(String... conf) {
+            return ASKSetup.parse(getApplicationContext(), conf[0]);
+        }
+
+        @Override
+        protected void onPostExecute(ASKSetup setup) {
+            startProbes(setup);
+        }
     }
 }

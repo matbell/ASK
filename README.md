@@ -46,8 +46,13 @@ data:
 
 ## Installing the library
 
-TODO
+To install ASK, add the following dependency to your `.gradle` file.
 
+```
+dependencies {
+    compile 'it.matbell:ask:0.3'
+}
+```
 ## Using the library
 
 ### Configuration

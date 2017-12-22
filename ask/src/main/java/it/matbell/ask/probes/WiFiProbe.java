@@ -115,8 +115,12 @@ class WiFiProbe extends ContinuousProbe {
     public void onFirstRun() {}
 
     @Override
+    @SuppressWarnings("all")
     void onStop() {
-        getContext().unregisterReceiver(scanResultsReceiver);
+        try {
+            getContext().unregisterReceiver(scanResultsReceiver);
+        }catch (IllegalArgumentException ex){}
+
         connectedBSSID = null;
         wifiLock = Utils.releaseWifiLock(wifiLock);
     }

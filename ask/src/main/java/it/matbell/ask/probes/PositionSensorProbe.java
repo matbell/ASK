@@ -25,7 +25,7 @@ import android.hardware.SensorManager;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import it.matbell.ask.controllers.SKSensorMonitor;
+import it.matbell.ask.controllers.SensorMonitor;
 
 /**
  * Monitors sensors that measure the physical position of a device. This category includes
@@ -55,20 +55,20 @@ class PositionSensorProbe extends ContinuousProbe {
             Sensor.TYPE_PROXIMITY
     };
 
-    private SKSensorMonitor skSensorMonitor;
+    private SensorMonitor sensorMonitor;
 
     private int maxSamples = DEFAULT_MAX_ELEMENTS;
 
     @Override
     public void init() {
 
-        skSensorMonitor = SKSensorMonitor.getInstance(getContext());
+        sensorMonitor = new SensorMonitor(getContext(), MOTION_SENSORS.length);
 
         for (int sensorId : MOTION_SENSORS) {
 
             int dimensions = (sensorId == Sensor.TYPE_PROXIMITY) ? 1 : 3;
 
-            skSensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_STATUS_ACCURACY_HIGH,
+            sensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_STATUS_ACCURACY_HIGH,
                     dimensions, maxSamples);
         }
     }
@@ -78,7 +78,7 @@ class PositionSensorProbe extends ContinuousProbe {
 
     @Override
     void onStop() {
-        for (int sensorId : MOTION_SENSORS) skSensorMonitor.unRegisterSensor(sensorId);
+        for (int sensorId : MOTION_SENSORS) sensorMonitor.unRegisterSensor(sensorId);
     }
 
     @Override
@@ -92,12 +92,12 @@ class PositionSensorProbe extends ContinuousProbe {
 
         for (int sensorId : MOTION_SENSORS) {
 
-            double[] sensorData = skSensorMonitor.getStats(sensorId);
+            double[] sensorData = sensorMonitor.getStats(sensorId);
 
             if(stats == null) stats = sensorData;
             else stats = ArrayUtils.addAll(stats, sensorData);
 
-            skSensorMonitor.resetSamples(sensorId);
+            sensorMonitor.resetSamples(sensorId);
         }
 
         logOnFile(stats, true);
