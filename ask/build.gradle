@@ -46,5 +46,7 @@ dependencies {
     //https://github.com/EverythingMe/easy-content-providers
     compile 'me.everything:providers-android:1.0.1'
 
+    compile 'com.android.volley:volley:1.1.0'
+
     apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
 }

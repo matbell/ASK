@@ -33,6 +33,7 @@ data:
 
    * **Audio**
    * **Battery**
+   * **Weather**
    * **General hardware info**
    * **Display**
    * **Telephony** (cells, calls, and sms/mms)
@@ -44,7 +45,7 @@ data:
    * **Location**
    * **Applications** (installed and running statistics)
 
-## Installing the library
+## Install
 
 To install ASK, add the following dependency to your `.gradle` file.
 

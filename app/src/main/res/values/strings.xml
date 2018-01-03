@@ -5,6 +5,13 @@
             "zipperInterval" : 30,
             "probes" : [
                 {
+                    "name" : "WeatherProbe",
+                    "interval" : 3600,
+                    "unit" : 2,
+                    "appId" : "84da1f0489af48796227b87443170b50",
+                    "logFile" : "weather.csv"
+                },
+                {
                     "name" : "ActivityRecognitionProbe",
                     "updateInterval" : 60,
                     "logFile" : "activity.csv"

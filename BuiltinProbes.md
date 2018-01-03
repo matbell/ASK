@@ -5,12 +5,13 @@
     * [Battery](#BatteryProbe)
     * [Hardware](#HardwareInfoProbe)
     * [Display](#DisplayProbe)
+    * [Weather](#WeatherProbe)
 * **Telephony**
     * [Cells Information](#CellInfoProbe)
     * [Phone calls](#CallsProbe)
 * **Calendar**
-    * [SKCalendarProbe](#CalendarProbe)
-    * [SKCurrentEventsProbe](#CurrentEventsProbe)
+    * [All Calendar events](#CalendarProbe)
+    * [Current events](#CurrentEventsProbe)
 * **Bluetooth**
     * [Bluetooth connections](#BluetoothConnProbe)
     * [Bluetooth scans](#BluetoothScanProbe)
@@ -111,6 +112,55 @@ NAME                | Value and Description
 --------------------|--------------------------------------------
 STATE               | _0_ (UNKNOWN), _1_ (OFF), _2_ (ON), _3_ (DOZE), _4_ (DOZE_SUSPEND). See the Android's [Display](https://developer.android.com/reference/android/view/Display.html) class.
 ROTATION            | _0_ (NO_ROTATION), _1_ (ROTATION_90), _2_ (ROTATION_180), _3_ (ROTATION_270). See the Android's [getRotation()](https://developer.android.com/reference/android/view/Display.html#getRotation()) method.
+
+
+### <a name="WeatherProbe"></a>WeatherProbe
+
+Monitors the current weather conditions (e.g., temperature, humidity,
+etc.) at the current device location.
+Weather information comes from the [OpenweatherMap](http://www.openweathermap.com) web service.
+
+#### Parameters
+
+```java
+int unit
+```
+The unit format to use. Possible formats are the following:
+_1 = Fahrenheit_, _2 = Celsius_, _3 = Kelvin_.
+
+```java
+String appId
+```
+The API key required by OpenweatherMap to access the weather API.
+For more information, see the following
+[link](http://openweathermap.org/appid).
+
+#### Required Permissions
+
+```
+com.google.android.gms.permission.ACCESS_FINE_LOCATION
+android.permission.INTERNET
+```
+
+#### Returns
+
+Returns the following information:
+
+NAME                       | Value and Description
+---------------------------|--------------------------------------------
+WEATHER_CODE               | The weather conditions ID according to the codes defined in http://www.openweathermap.com/weather-conditions
+TEMPERATURE                | Current temperature degrees
+TEMP_MIN                   | Minimum temperature at the moment
+TEMP_MAX                   | Maximum temperature at the moment
+HUMIDITY                   | Percentage of humidity
+PRESSURE                   | Atmospheric pressure
+WIND_SPEED                 | Wind speed
+WIND_DIRECTION             | Wind direction in degrees
+CLOUDINESS                 | Percentage of cloudiness
+RAIN_3H                    | Rain volume for the last 3 hours
+SNOW_3H                    | Snow volume for the last 3 hours
+SUNRISE_TIME               | Sunrise time (unix UTC timestamp)
+SUNSET_TIME                | Sunset time (unix UTC timestamp)
 
 
 # Telephony Probes
