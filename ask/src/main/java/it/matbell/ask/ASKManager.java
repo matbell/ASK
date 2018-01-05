@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -56,6 +57,8 @@ public class ASKManager extends Service {
     private List<Worker> workers = new ArrayList<>();
     private FileChecker fileChecker;
 
+    private PowerManager.WakeLock wakeLock;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -68,6 +71,8 @@ public class ASKManager extends Service {
         for(Worker worker : workers) worker.stop();
         if(fileChecker != null) fileChecker.stop();
         RUNNING = false;
+
+        if(wakeLock != null) wakeLock.release();
     }
 
     @Nullable
@@ -83,6 +88,13 @@ public class ASKManager extends Service {
             final String configuration = getConfiguration(intent);
 
             parseConfiguration(configuration);
+
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            if(powerManager != null) {
+                wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                        this.getClass().getName());
+                wakeLock.acquire();
+            }
 
             RUNNING = true;
         }

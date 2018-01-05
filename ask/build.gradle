@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'it.matbell'
     PUBLISH_ARTIFACT_ID = 'ask'
-    PUBLISH_VERSION = '0.3'
+    PUBLISH_VERSION = '0.5'
 }
 
 android {
@@ -12,8 +12,8 @@ android {
     defaultConfig {
         minSdkVersion 20
         targetSdkVersion 26
-        versionCode 3
-        versionName "0.3"
+        versionCode 5
+        versionName "0.5"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

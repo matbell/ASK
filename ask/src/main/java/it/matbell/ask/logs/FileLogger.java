@@ -87,7 +87,7 @@ public class FileLogger {
 
                 String toWrite;
 
-                if(withTimeStamp) toWrite = currentTime.getTime() + SEP + content;
+                if(withTimeStamp) toWrite = currentTime + SEP + content;
                 else toWrite = content;
 
                 if(!storage.isFileExist(path))

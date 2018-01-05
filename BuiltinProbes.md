@@ -353,6 +353,7 @@ SIG_LEVEL           | The raw RSSI level
 CAPABILITIES        | Authentication, key management, and encryption schemes supported by the AP
 FREQUENCY           | The primary 20 MHz frequency (in MHz) of the channel over which the client is communicating with the access point
 CONNECTED           | _TRUE/FALSE_ if the device is currently connected to the Access Point
+CONFIGURED          | _TRUE/FALSE_ if the AP is in the list of already configured WIFi Networks
 
 
 # Sensors

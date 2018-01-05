@@ -2,7 +2,6 @@
     <string name="app_name">ASKDemo</string>
     <string name="ask_conf">
         {
-            "zipperInterval" : 30,
             "probes" : [
                 {
                     "name" : "WeatherProbe",
@@ -76,17 +75,17 @@
                 },
                 {
                     "name" : "LocationProbe",
-                    "interval" : 60,
+                    "interval" : 180,
                     "logFile" : "location.csv"
                 },
                 {
                     "name" : "RunningApplicationsProbe",
-                    "interval" : 60,
+                    "interval" : 180,
                     "logFile" : "running_apps.csv"
                 },
                 {
                     "name" : "AppsUsageProbe",
-                    "interval" : 60,
+                    "interval" : 180,
                     "logFile" : "apps_usage.csv"
                 },
                 {

@@ -27,6 +27,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
@@ -35,7 +36,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import it.matbell.ask.commons.Utils;
 
@@ -51,6 +54,7 @@ import it.matbell.ask.commons.Utils;
  *      - FREQUENCY	The primary 20 MHz frequency (in MHz) of the channel over which the client is
  *      communicating with the access point
  *      - CONNECTED	: TRUE/FALSE if the device is currently connected to the Access Point
+ *      - CONFIGURED : TRUE/FALSE if the AP is in the list of already configured WIFi Networks
  *
  * Required permissions:
  *
@@ -70,6 +74,7 @@ class WiFiProbe extends ContinuousProbe {
     private ConnectivityManager connManager;
     private WifiManager.WifiLock wifiLock;
     private String connectedBSSID;
+    private Set<String> configuredNets;
 
     @SuppressWarnings("all")
     private BroadcastReceiver scanResultsReceiver = new BroadcastReceiver() {
@@ -87,11 +92,14 @@ class WiFiProbe extends ContinuousProbe {
                     for (ScanResult result : results) {
 
                         boolean connected = result.BSSID.equals(connectedBSSID);
+                        boolean configured = configuredNets != null &&
+                                configuredNets.contains("\""+result.SSID+"\"");
 
                         data.add(StringUtils.join(Arrays.asList(result.SSID, result.BSSID,
                                 WifiManager.calculateSignalLevel(result.level, MAX_RSSI_LEVELS),
                                 result.level, result.capabilities,
-                                result.frequency, String.valueOf(connected)), ","));
+                                result.frequency, String.valueOf(connected),
+                                String.valueOf(configured)), ","));
                     }
 
                     if(data.size() != 0) logOnFile(true, data);
@@ -122,6 +130,7 @@ class WiFiProbe extends ContinuousProbe {
         }catch (IllegalArgumentException ex){}
 
         connectedBSSID = null;
+        configuredNets = null;
         wifiLock = Utils.releaseWifiLock(wifiLock);
     }
 
@@ -135,6 +144,11 @@ class WiFiProbe extends ContinuousProbe {
             wifiLock = Utils.acquireWifiLock(wifiManager, wifiLock, LOCK_KEY);
 
             NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            configuredNets = new HashSet<>();
+            for(WifiConfiguration conf : wifiManager.getConfiguredNetworks()){
+                configuredNets.add(conf.SSID);
+            }
 
             if(mWifi.isConnectedOrConnecting()){
                 WifiInfo wInfo = wifiManager.getConnectionInfo();
