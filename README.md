@@ -1,6 +1,7 @@
 # Android Sensing Kit
 
 [ ![Download](https://api.bintray.com/packages/matbell/ASK/ASK/images/download.svg) ](https://bintray.com/matbell/ASK/ASK/_latestVersion)
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
 ![alt text](https://user-images.githubusercontent.com/1859476/34232195-14e95404-e594-11e7-8cc8-6361b50433d5.png)
 
