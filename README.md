@@ -1,5 +1,7 @@
 # Android Sensing Kit
 
+[ ![Download](https://api.bintray.com/packages/matbell/ASK/ASK/images/download.svg) ](https://bintray.com/matbell/ASK/ASK/_latestVersion)
+
 ![alt text](https://user-images.githubusercontent.com/1859476/34232195-14e95404-e594-11e7-8cc8-6361b50433d5.png)
 
 **A**ndroid **S**ensing **K**it (**ASK**) is a development framework
@@ -51,7 +53,7 @@ To install ASK, add the following dependency to your `.gradle` file.
 
 ```
 dependencies {
-    compile 'it.matbell:ask:0.3'
+    compile 'it.matbell:ask:0.5'
 }
 ```
 ## Using the library
