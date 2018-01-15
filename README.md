@@ -54,7 +54,7 @@ To install ASK, add the following dependency to your `.gradle` file.
 
 ```
 dependencies {
-    compile 'it.matbell:ask:0.5'
+    implementation 'it.matbell:ask:0.5'
 }
 ```
 ## Using the library
