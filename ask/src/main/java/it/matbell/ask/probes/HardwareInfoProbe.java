@@ -28,6 +28,8 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 
+import java.util.Arrays;
+
 import it.matbell.ask.commons.Utils;
 import it.matbell.ask.controllers.HardwareInfoController;
 
@@ -117,7 +119,8 @@ class HardwareInfoProbe extends ContinuousProbe {
     }
 
     private void fetchInfo(){
-        logOnFile(true, Utils.formatLogOutput(
+
+        logOnFile(true, Arrays.asList(
                 HardwareInfoController.getAndroidID(getContext()),
                 HardwareInfoController.getWiFiMac(),
                 wifiP2pMac,
@@ -126,7 +129,6 @@ class HardwareInfoProbe extends ContinuousProbe {
                 HardwareInfoController.getPhoneModel(),
                 HardwareInfoController.getManufacturer(),
                 HardwareInfoController.getDeviceID(getContext()),
-                HardwareInfoController.getPhoneNumber(getContext()))
-        );
+                HardwareInfoController.getPhoneNumber(getContext())).toArray());
     }
 }

@@ -10,8 +10,9 @@
                     "logFile" : "activity.csv"
                 },
                 {
-                    "name" : "CallsProbe",
-                    "logFile" : "calls.csv"
+                    "name" : "HardwareInfoProbe",
+                    "interval" : 60,
+                    "logFile" : "hw.csv"
                 },
                 {
                     "name" : "EnvironmentSensorProbe",

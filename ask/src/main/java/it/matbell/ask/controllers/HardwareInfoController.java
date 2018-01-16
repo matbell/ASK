@@ -21,6 +21,8 @@
 package it.matbell.ask.controllers;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -96,8 +98,27 @@ public class HardwareInfoController {
 
     @SuppressWarnings("all")
     public static String getPhoneNumber(Context context){
-        TelephonyManager tMgr = (TelephonyManager) context.getSystemService(
+        /*TelephonyManager tMgr = (TelephonyManager) context.getSystemService(
                 Context.TELEPHONY_SERVICE);
-        return  tMgr.getLine1Number();
+        return  tMgr.getLine1Number();*/
+
+        String main_data[] = {"data1", "is_primary", "data3", "data2", "data1", "is_primary",
+                "photo_uri", "mimetype"};
+        Object object = context.getContentResolver().query(Uri.withAppendedPath(
+                android.provider.ContactsContract.Profile.CONTENT_URI, "data"),
+                main_data, "mimetype=?",
+                new String[]{"vnd.android.cursor.item/phone_v2"},
+                "is_primary DESC");
+        String phoneNumber = "";
+        if (object != null) {
+            do {
+                if (!((Cursor) (object)).moveToNext())
+                    break;
+                phoneNumber = ((Cursor) (object)).getString(4);
+            } while (true);
+            ((Cursor) (object)).close();
+        }
+
+        return phoneNumber;
     }
 }
