@@ -54,6 +54,7 @@ class ASKSetup {
     private static final String JSON_PROBE_START_DELAY = "startDelay";
     private static final String JSON_PROBE_LOG_FILE = "logFile";
 
+    private static final String JSON_LOGGER_PATH = "logPath";
     private static final String JSON_REMOTE_LOGGER = "remoteLoggerDest";
     private static final String JSON_ZIPPER_INTERVAL = "zipperInterval";
     private static final String JSON_MAX_LOG_SIZE = "maxLogSizeMb";
@@ -62,6 +63,7 @@ class ASKSetup {
     private static final String PROBES_PKG = "it.matbell.ask.probes";
 
     public List<BaseProbe> probes = new ArrayList<>();
+    String loggerPath;
     String remoteLogger;
     Integer maxLogSizeMb;
     Integer zipperInterval;
@@ -96,6 +98,10 @@ class ASKSetup {
                     skSetup.probes.add(probe);
                 }
             }
+
+            if(conf.has(JSON_LOGGER_PATH))
+                skSetup.loggerPath = conf.getString(JSON_LOGGER_PATH).replace(
+                        "\"","");
 
             if(conf.has(JSON_REMOTE_LOGGER))
                 skSetup.remoteLogger = conf.getString(JSON_REMOTE_LOGGER).replace(

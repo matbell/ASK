@@ -69,7 +69,7 @@ public class FileChecker {
 
         Log.d("FileChecker", "Checking log files...");
 
-        String path = Environment.getExternalStorageDirectory().toString() + "/" + FileLogger.BASE_DIR;
+        String path = FileLogger.getInstance(context).basePath;
 
         File directory = new File(path);
 

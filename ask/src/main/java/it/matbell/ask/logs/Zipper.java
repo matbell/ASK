@@ -44,7 +44,7 @@ class Zipper {
 
         this.context = context;
         Storage storage = new Storage(context.getApplicationContext());
-        baseDir = storage.getExternalStorageDirectory() + File.separator + FileLogger.BASE_DIR;
+        baseDir = FileLogger.getInstance(context).basePath;
 
     }
 

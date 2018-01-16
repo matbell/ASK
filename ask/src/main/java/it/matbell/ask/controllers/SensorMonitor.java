@@ -71,6 +71,8 @@ public class SensorMonitor {
     }
 
     public void resetSamples(int sensorId){
-        data.get(sensorId).reset();
+
+        if(sensorId != Sensor.TYPE_LIGHT)
+             data.get(sensorId).reset();
     }
 }

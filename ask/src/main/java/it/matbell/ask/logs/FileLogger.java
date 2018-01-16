@@ -34,22 +34,27 @@ import java.util.List;
 
 public class FileLogger {
 
-    public static final String BASE_DIR = "AndroidSensingKit";
+    private static final String DEFAULT_BASE_DIR = "AndroidSensingKit";
     private static final String SEP = "\t";
 
     private static FileLogger instance;
     private Storage storage;
-    private String basePath;
+    public String basePath;
 
     public static FileLogger getInstance(Context context){
         if(instance == null) instance = new FileLogger(context);
 
         return instance;
     }
+
     private FileLogger(Context context){
 
         storage = new Storage(context.getApplicationContext());
-        basePath = storage.getExternalStorageDirectory() + File.separator + BASE_DIR;
+        basePath = storage.getExternalStorageDirectory() + File.separator + DEFAULT_BASE_DIR;
+    }
+
+    public void setBaseDir(String baseDir){
+        basePath = storage.getExternalStorageDirectory() + File.separator + baseDir;
     }
 
     public void store(String fileName, double[] data, boolean withTimeStamp){
@@ -87,7 +92,7 @@ public class FileLogger {
 
                 String toWrite;
 
-                if(withTimeStamp) toWrite = currentTime + SEP + content;
+                if(withTimeStamp) toWrite = currentTime.getTime() + SEP + content;
                 else toWrite = content;
 
                 if(!storage.isFileExist(path))

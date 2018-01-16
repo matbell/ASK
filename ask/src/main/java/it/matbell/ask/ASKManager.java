@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.matbell.ask.logs.FileChecker;
+import it.matbell.ask.logs.FileLogger;
 import it.matbell.ask.logs.FileSender;
 import it.matbell.ask.probes.BaseProbe;
 import it.matbell.ask.probes.ContinuousProbe;
@@ -119,6 +120,9 @@ public class ASKManager extends Service {
         if(setup.zipperInterval != null)
             fileChecker = new FileChecker(getApplicationContext(), fileSender,
                     setup.zipperInterval, setup.maxLogSizeMb);
+
+        if(setup.loggerPath != null)
+            FileLogger.getInstance(this).setBaseDir(setup.loggerPath);
 
         for(BaseProbe probe : setup.probes) {
 
