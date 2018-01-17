@@ -36,6 +36,7 @@ import java.util.Collection;
 import java.util.List;
 
 import it.matbell.ask.commons.Utils;
+import it.matbell.ask.model.WifiP2PData;
 
 /**
  * This probe performs a continuous Wi-Fi P2P Peer discovery to monitor the other devices in
@@ -82,6 +83,7 @@ class WiFiP2PProbe extends ContinuousProbe {
         }
     };
 
+    @SuppressWarnings("all")
     private BroadcastReceiver eventsReceiver = new BroadcastReceiver() {
 
         @Override
@@ -136,8 +138,7 @@ class WiFiP2PProbe extends ContinuousProbe {
         wifiLock = Utils.releaseWifiLock(wifiLock);
 
         if(addressList.size() != 0){
-            logOnFile(true, addressList);
-            for(String addr : addressList) Log.d(Utils.TAG, addr);
+            logOnFile(true, new WifiP2PData(addressList));
         }
     }
 
@@ -157,8 +158,11 @@ class WiFiP2PProbe extends ContinuousProbe {
 
     private void startPeerDiscovery(){
 
+        Log.d(Utils.TAG, "Start peer discovery");
+
         wifiP2pManager.discoverPeers(wifiP2pChannel, new WifiP2pManager.ActionListener() {
 
+            @SuppressWarnings("all")
             @Override
             public void onSuccess() {
                 new Handler().postDelayed(new Runnable() {

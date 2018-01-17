@@ -84,10 +84,6 @@ public class HardwareInfoController {
         return Build.MODEL;
     }
 
-    public static String getManufacturer(){
-        return Build.MANUFACTURER;
-    }
-
     @SuppressWarnings("all")
     public static String getDeviceID(Context context){
 

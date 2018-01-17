@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.matbell.ask.model.Call;
+import it.matbell.ask.model.Loggable;
 import me.everything.providers.android.calllog.CallsProvider;
 
 public class CallsController {

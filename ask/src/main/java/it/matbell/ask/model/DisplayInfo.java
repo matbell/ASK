@@ -23,9 +23,7 @@ package it.matbell.ask.model;
 import android.view.Display;
 import android.view.Surface;
 
-import java.util.Arrays;
-
-import it.matbell.ask.commons.Utils;
+import it.matbell.ask.logs.FileLogger;
 
 /**
  * {@link DisplayInfo#state} can be:
@@ -42,7 +40,7 @@ import it.matbell.ask.commons.Utils;
  *      - {@link Surface#ROTATION_180}
  *      - {@link Surface#ROTATION_270}
  */
-public class DisplayInfo {
+public class DisplayInfo implements Loggable{
 
     private int state, rotation;
 
@@ -51,13 +49,8 @@ public class DisplayInfo {
         this.rotation = display.getRotation();
     }
 
-    public Object[] getDataToPrint(){
-
-        return Arrays.asList(state, rotation).toArray();
-    }
-
     @Override
-    public String toString() {
-        return Utils.formatLogOutput(state, rotation);
+    public String getDataToLog() {
+        return state + FileLogger.SEP + rotation;
     }
 }

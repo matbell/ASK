@@ -71,6 +71,7 @@ class BluetoothScanProbe extends ContinuousProbe {
     @Override
     public void onFirstRun() {}
 
+    @SuppressWarnings("all")
     @Override
     void onStop() {
         getContext().unregisterReceiver(btReceiver);
@@ -79,6 +80,7 @@ class BluetoothScanProbe extends ContinuousProbe {
         }
     }
 
+    @SuppressWarnings("all")
     @Override
     public void exec() {
         if (mBtAdapter.isDiscovering()) {

@@ -20,87 +20,131 @@
 
 package it.matbell.ask.logs;
 
-import android.content.Context;
-
-import com.snatik.storage.Storage;
-
-import org.apache.commons.lang3.StringUtils;
+import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.Collection;
+
+import it.matbell.ask.commons.Utils;
+import it.matbell.ask.model.Loggable;
 
 public class FileLogger {
 
     private static final String DEFAULT_BASE_DIR = "AndroidSensingKit";
-    private static final String SEP = "\t";
+    public static final String SEP = "\t";
 
     private static FileLogger instance;
-    private Storage storage;
-    public String basePath;
+    String basePath;
 
-    public static FileLogger getInstance(Context context){
-        if(instance == null) instance = new FileLogger(context);
+    public static FileLogger getInstance(){
+        if(instance == null) instance = new FileLogger();
 
         return instance;
     }
 
-    private FileLogger(Context context){
-
-        storage = new Storage(context.getApplicationContext());
-        basePath = storage.getExternalStorageDirectory() + File.separator + DEFAULT_BASE_DIR;
-    }
-
     public void setBaseDir(String baseDir){
-        basePath = storage.getExternalStorageDirectory() + File.separator + baseDir;
+
+        if(baseDir == null) baseDir = DEFAULT_BASE_DIR;
+
+        basePath = Environment.getExternalStorageDirectory() + File.separator + baseDir;
+        File dir = new File(basePath);
+        if(!dir.exists()) dir.mkdir();
     }
 
-    public void store(String fileName, double[] data, boolean withTimeStamp){
-
-        List<String> toPrint = new ArrayList<>();
-        for(double element : data) toPrint.add(String.valueOf(element));
-
-        store(StringUtils.join(toPrint, SEP), fileName, withTimeStamp);
-    }
-
-    public void store(String fileName, int[] data, boolean withTimeStamp){
-
-        List<String> toPrint = new ArrayList<>();
-        for(int element : data) toPrint.add(String.valueOf(element));
-
-        store(StringUtils.join(toPrint, SEP), fileName, withTimeStamp);
-    }
-
-    public void store(String fileName, boolean withTimeStamp, String...data){
-
-        store(StringUtils.join(data, SEP), fileName, withTimeStamp);
-    }
-
-    private void store(final String content, final String fileName, final boolean withTimeStamp){
+    public void store(final String fileName, final Collection<? extends Loggable> data,
+                      final boolean withTimeStamp){
 
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                if(!storage.isDirectoryExists(basePath)) storage.createDirectory(basePath);
+                File file = new File(basePath + File.separator + fileName);
 
-                String path = basePath+File.separator+fileName;
+                if(!file.exists()){
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-                Date currentTime = Calendar.getInstance().getTime();
+                try {
 
-                String toWrite;
+                    FileWriter fw = new FileWriter(file, true);
 
-                if(withTimeStamp) toWrite = currentTime.getTime() + SEP + content;
-                else toWrite = content;
+                    long currentTime = Calendar.getInstance().getTime().getTime();
 
-                if(!storage.isFileExist(path))
-                    storage.createFile(path, toWrite+"\n");
-                else
-                    storage.appendFile(path, toWrite);
+                    for(Loggable printable : data){
+
+
+                        String toWrite;
+
+                        if(withTimeStamp){
+
+                            toWrite = currentTime + SEP + printable.getDataToLog();
+
+                        } else{
+                            toWrite = printable.getDataToLog();
+                        }
+
+                        fw.write(toWrite+"\n");
+
+                    }
+
+                    fw.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         }).start();
+
+    }
+
+    public void store(final String fileName, final Loggable data, final boolean withTimeStamp){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                File file = new File(basePath + File.separator + fileName);
+
+                if(!file.exists()){
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                try {
+                    FileWriter fw = new FileWriter(file, true);
+
+                    String toWrite;
+
+                    if(withTimeStamp){
+
+                        long currentTime = Calendar.getInstance().getTime().getTime();
+                        toWrite = currentTime + SEP + data.getDataToLog();
+
+                    } else{
+                        toWrite = data.getDataToLog();
+                    }
+
+                    fw.write(toWrite+"\n");
+                    fw.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
     }
 }

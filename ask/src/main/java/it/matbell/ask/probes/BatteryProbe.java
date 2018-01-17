@@ -48,7 +48,7 @@ class BatteryProbe extends ContinuousProbe {
         BatteryInfo batteryInfo = BatteryController.getBatteryInfo(getContext());
 
         if(batteryInfo != null){
-            logOnFile(true, batteryInfo.getDataToPrint());
+            logOnFile(true, batteryInfo);
         }
     }
 }

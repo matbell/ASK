@@ -27,6 +27,7 @@ import android.util.Log;
 import org.apache.commons.lang3.ArrayUtils;
 
 import it.matbell.ask.controllers.SensorMonitor;
+import it.matbell.ask.model.SensorsStats;
 
 /**
  * Monitors sensors that measure various environmental parameters, such as ambient air temperature
@@ -95,6 +96,6 @@ class EnvironmentSensorProbe extends ContinuousProbe {
             sensorMonitor.resetSamples(sensorId);
         }
 
-        logOnFile(stats, true);
+        logOnFile(true, new SensorsStats(stats));
     }
 }

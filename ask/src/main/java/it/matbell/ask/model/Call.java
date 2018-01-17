@@ -20,11 +20,9 @@
 
 package it.matbell.ask.model;
 
-import java.util.Arrays;
+import it.matbell.ask.logs.FileLogger;
 
-import it.matbell.ask.commons.Utils;
-
-public class Call {
+public class Call implements Loggable{
 
     private long callDate;
     private String name, number;
@@ -46,15 +44,10 @@ public class Call {
         this.incoming = incoming;
     }
 
-    public Object[] getDataToPrint(){
-
-        return Arrays.asList(callDate, incoming, number, name).toArray();
-    }
-
     @Override
-    public String toString(){
+    public String getDataToLog(){
 
-        return Utils.formatLogOutput(name, number, callDate, incoming);
+        return callDate + FileLogger.SEP + incoming + FileLogger.SEP +
+                number + FileLogger.SEP + name;
     }
-
 }

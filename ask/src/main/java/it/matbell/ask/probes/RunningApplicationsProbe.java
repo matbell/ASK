@@ -22,9 +22,8 @@ package it.matbell.ask.probes;
 
 import android.app.usage.UsageStatsManager;
 
-import java.util.List;
-
 import it.matbell.ask.controllers.AppsUsageController;
+import it.matbell.ask.model.PackagesData;
 
 /**
  * This probe monitors the usage statistics of the running applications using the
@@ -65,9 +64,10 @@ class RunningApplicationsProbe extends ContinuousProbe {
     @Override
     public void exec() {
 
-        List<String> apps = AppsUsageController.getRecentApplications(getContext(), lastNMinutes);
+        PackagesData packagesData = new PackagesData();
+        packagesData.packages = AppsUsageController.getRecentApplications(getContext(), lastNMinutes);
 
-        if(apps.size() > 0) logOnFile(true, apps);
+        if(packagesData.packages.size() > 0) logOnFile(true, packagesData);
 
     }
 }

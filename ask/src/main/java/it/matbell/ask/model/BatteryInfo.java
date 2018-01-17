@@ -20,11 +20,9 @@
 
 package it.matbell.ask.model;
 
-import java.util.Arrays;
+import it.matbell.ask.logs.FileLogger;
 
-import it.matbell.ask.commons.Utils;
-
-public class BatteryInfo {
+public class BatteryInfo implements Loggable{
 
     private float batteryPercentage;
     private int plugged;
@@ -36,12 +34,7 @@ public class BatteryInfo {
     }
 
     @Override
-    public String toString() {
-        return Utils.formatLogOutput(batteryPercentage, plugged);
-    }
-
-    public Object[] getDataToPrint(){
-
-        return Arrays.asList(batteryPercentage, plugged).toArray();
+    public String getDataToLog() {
+        return batteryPercentage + FileLogger.SEP + plugged;
     }
 }

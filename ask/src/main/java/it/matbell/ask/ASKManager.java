@@ -121,8 +121,7 @@ public class ASKManager extends Service {
             fileChecker = new FileChecker(getApplicationContext(), fileSender,
                     setup.zipperInterval, setup.maxLogSizeMb);
 
-        if(setup.loggerPath != null)
-            FileLogger.getInstance(this).setBaseDir(setup.loggerPath);
+        FileLogger.getInstance().setBaseDir(setup.loggerPath);
 
         for(BaseProbe probe : setup.probes) {
 

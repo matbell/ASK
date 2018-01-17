@@ -20,10 +20,10 @@
 
 package it.matbell.ask.model;
 
-import it.matbell.ask.commons.Utils;
+import it.matbell.ask.logs.FileLogger;
 import me.everything.providers.android.calendar.Event;
 
-public class CalendarEvent{
+public class CalendarEvent implements Loggable{
 
     private String calendarName;
     private long start, end;
@@ -52,12 +52,8 @@ public class CalendarEvent{
     }
 
     @Override
-    public String toString(){
-
-        if(calendarName != null)
-            Utils.formatLogOutput(calendarName, allDay, start, end, title, "["+location+"]");
-
-        return Utils.formatLogOutput(allDay, start, end, title, "["+location+"]");
+    public String getDataToLog() {
+        return calendarName + FileLogger.SEP + allDay + FileLogger.SEP + start + FileLogger.SEP +
+                end + FileLogger.SEP + title + FileLogger.SEP + "[" + location + "]";
     }
-
 }

@@ -60,6 +60,7 @@ class ActivityRecognitionProbe extends OnEventProbe {
     @SuppressWarnings("all")
     private long updateInterval = DEFAULT_UPDATE_INTERVAL;
 
+    @SuppressWarnings("all")
     @Override
     public void init() {
 
@@ -72,6 +73,7 @@ class ActivityRecognitionProbe extends OnEventProbe {
     @Override
     public void onFirstRun() {}
 
+    @SuppressWarnings("all")
     @Override
     void onStop() {
 

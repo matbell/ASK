@@ -20,11 +20,9 @@
 
 package it.matbell.ask.model;
 
-import java.util.Arrays;
+import it.matbell.ask.logs.FileLogger;
 
-import it.matbell.ask.commons.Utils;
-
-public class AudioInfo {
+public class AudioInfo implements Loggable{
 
     private int ringerMode;
     private float alarmVolume, musicVolume, notificationVolume, ringVolume;
@@ -46,15 +44,11 @@ public class AudioInfo {
         this.headsetOn = headsetOn;
     }
 
-    public Object[] getDataToPrint(){
-
-        return Arrays.asList(ringerMode, alarmVolume, musicVolume, notificationVolume, ringVolume,
-                bluetoothScoOn, microphoneMute, musicVolume, speakerOn, headsetOn).toArray();
-    }
-
     @Override
-    public String toString(){
-        return Utils.formatLogOutput(ringerMode, alarmVolume, musicVolume, notificationVolume,
-                ringVolume, bluetoothScoOn, microphoneMute, musicActive, speakerOn, headsetOn);
+    public String getDataToLog() {
+        return ringerMode + FileLogger.SEP + alarmVolume + FileLogger.SEP + musicVolume +
+                FileLogger.SEP + notificationVolume + FileLogger.SEP + ringVolume + FileLogger.SEP +
+                bluetoothScoOn + FileLogger.SEP + microphoneMute + FileLogger.SEP + FileLogger.SEP +
+                musicActive + FileLogger.SEP + speakerOn + FileLogger.SEP + headsetOn;
     }
 }

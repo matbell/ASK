@@ -26,6 +26,7 @@ import android.hardware.SensorManager;
 import org.apache.commons.lang3.ArrayUtils;
 
 import it.matbell.ask.controllers.SensorMonitor;
+import it.matbell.ask.model.SensorsStats;
 
 /**
  * Monitors sensors that measure the physical position of a device. This category includes
@@ -100,6 +101,6 @@ class PositionSensorProbe extends ContinuousProbe {
             sensorMonitor.resetSamples(sensorId);
         }
 
-        logOnFile(stats, true);
+        logOnFile(true, new SensorsStats(stats));
     }
 }

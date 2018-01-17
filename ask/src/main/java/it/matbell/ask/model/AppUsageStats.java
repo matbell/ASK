@@ -22,11 +22,9 @@ package it.matbell.ask.model;
 
 import android.app.usage.UsageStats;
 
-import java.util.Arrays;
+import it.matbell.ask.logs.FileLogger;
 
-import it.matbell.ask.commons.Utils;
-
-public class AppUsageStats {
+public class AppUsageStats implements Loggable {
 
     private String packageName;
     private long firstTimeStamp, lastTimeStamp, lastTimeUsed, totalTimeInForeground;
@@ -41,15 +39,10 @@ public class AppUsageStats {
         this.totalTimeInForeground = stats.getTotalTimeInForeground();
     }
 
-    public Object[] getDataToPrint(){
-
-        return Arrays.asList(packageName, firstTimeStamp, lastTimeStamp, lastTimeUsed,
-                totalTimeInForeground).toArray();
-    }
-
     @Override
-    public String toString() {
-        return Utils.formatLogOutput(packageName, firstTimeStamp, lastTimeStamp, lastTimeUsed,
-                totalTimeInForeground);
+    public String getDataToLog() {
+
+        return packageName + FileLogger.SEP + firstTimeStamp + FileLogger.SEP + lastTimeStamp +
+                FileLogger.SEP + lastTimeUsed + FileLogger.SEP + totalTimeInForeground;
     }
 }

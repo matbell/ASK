@@ -54,9 +54,7 @@ public class SmsProbe extends OnEventProbe {
     private Runnable fetchAllSms = new Runnable() {
         @Override
         public void run() {
-            for(Sms sms : SmsController.getAllSms(getContext())){
-                logOnFile(false, sms.getDataToPrint());
-            }
+            logOnFile(false, SmsController.getAllSms(getContext()));
         }
     };
 
@@ -96,7 +94,7 @@ public class SmsProbe extends OnEventProbe {
     private void onSmSEvent(Sms sms){
 
         if(lastSmsId != sms.getId()){
-            logOnFile(false, sms.getDataToPrint());
+            logOnFile(false, sms);
             lastSmsId = sms.getId();
         }
 

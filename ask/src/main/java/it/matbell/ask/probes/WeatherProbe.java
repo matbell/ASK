@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import it.matbell.ask.commons.Utils;
 import it.matbell.ask.controllers.WeatherController;
+import it.matbell.ask.model.OpenWeatherData;
 
 /**
  * This probe monitors the current weather conditions (e.g., temperature, humidity, etc.) at the
@@ -65,7 +66,7 @@ public class WeatherProbe extends ContinuousProbe {
     private WeatherController.WeatherListener listener = new WeatherController.WeatherListener(){
 
         @Override
-        public void onWeatherAvailable(Object[] data) {
+        public void onWeatherAvailable(OpenWeatherData data) {
             logOnFile(true, data);
         }
 

@@ -21,6 +21,7 @@
 package it.matbell.ask.probes;
 
 import it.matbell.ask.controllers.CellController;
+import it.matbell.ask.model.CellsInfo;
 
 /**
  * This probe monitors the phone cells visible by the local device. For each cell, it reports the
@@ -51,6 +52,6 @@ class CellInfoProbe extends ContinuousProbe {
     @Override
     public void exec() {
 
-        logOnFile(true, CellController.getVisibleCells(getContext()));
+        logOnFile(true, new CellsInfo(CellController.getVisibleCells(getContext())));
     }
 }

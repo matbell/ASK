@@ -28,10 +28,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.matbell.ask.commons.Utils;
+import it.matbell.ask.model.PackagesData;
 
 /**
  * This probe monitors the installed applications. For each application, it reports the package
@@ -86,9 +86,6 @@ class InstalledAppsProbe extends ContinuousProbe {
         final PackageManager pm = getContext().getPackageManager();
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
-        List<String> packagesNames = new ArrayList<>();
-        for (ApplicationInfo packageInfo : packages) packagesNames.add(packageInfo.packageName);
-
-        logOnFile(true, packagesNames);
+        logOnFile(true, new PackagesData(packages));
     }
 }

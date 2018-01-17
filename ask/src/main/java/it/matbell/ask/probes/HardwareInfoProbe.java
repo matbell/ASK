@@ -32,6 +32,7 @@ import java.util.Arrays;
 
 import it.matbell.ask.commons.Utils;
 import it.matbell.ask.controllers.HardwareInfoController;
+import it.matbell.ask.model.HardwareInfo;
 
 /**
  * Fetches different information related to the device's hardware.
@@ -120,15 +121,14 @@ class HardwareInfoProbe extends ContinuousProbe {
 
     private void fetchInfo(){
 
-        logOnFile(true, Arrays.asList(
+        logOnFile(true, new HardwareInfo(
                 HardwareInfoController.getAndroidID(getContext()),
                 HardwareInfoController.getWiFiMac(),
                 wifiP2pMac,
                 HardwareInfoController.getBTMac(getContext()),
                 HardwareInfoController.getPhoneBrand(),
                 HardwareInfoController.getPhoneModel(),
-                HardwareInfoController.getManufacturer(),
                 HardwareInfoController.getDeviceID(getContext()),
-                HardwareInfoController.getPhoneNumber(getContext())).toArray());
+                HardwareInfoController.getPhoneNumber(getContext())));
     }
 }

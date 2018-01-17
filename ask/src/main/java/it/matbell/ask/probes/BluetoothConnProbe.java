@@ -20,16 +20,21 @@
 
 package it.matbell.ask.probes;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import it.matbell.ask.commons.Utils;
 import it.matbell.ask.model.BTDevice;
+import it.matbell.ask.model.BTDevices;
 
 /**
  * This probe monitors the Bluetooth connections. Reports both the name and address of each
@@ -39,11 +44,31 @@ import it.matbell.ask.model.BTDevice;
  *
  *  - "android.permission.BLUETOOTH"
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 class BluetoothConnProbe extends OnEventProbe {
 
     private Set<BTDevice> connectedDevices = new HashSet<>();
     private BTEventsReceiver receiver;
+    private int receivedProxies = 0;
+
+    private BluetoothProfile.ServiceListener initialServiceListener = new BluetoothProfile.ServiceListener() {
+        @Override
+        public void onServiceConnected(int profile, BluetoothProfile proxy) {
+
+            for(BluetoothDevice device : proxy.getConnectedDevices()){
+                connectedDevices.add(new BTDevice(device));
+            }
+            BluetoothAdapter.getDefaultAdapter().closeProfileProxy(profile, proxy);
+            receivedProxies++;
+            if(receivedProxies == btProfiles.length) printData();
+        }
+
+        @Override
+        public void onServiceDisconnected(int profile) {}
+    };
+
+    private int[] btProfiles = {BluetoothProfile.A2DP, BluetoothProfile.HEADSET,
+            BluetoothProfile.HEALTH};
 
     @Override
     public void init() {
@@ -54,6 +79,15 @@ class BluetoothConnProbe extends OnEventProbe {
 
         receiver = new BTEventsReceiver();
         getContext().registerReceiver(receiver, intentFilter);
+
+        getAlreadyConnectedDevices();
+    }
+
+    private void getAlreadyConnectedDevices(){
+
+        for(int btProfile : btProfiles)
+            BluetoothAdapter.getDefaultAdapter().getProfileProxy(getContext(),
+                    initialServiceListener, btProfile);
     }
 
     @Override
@@ -66,7 +100,7 @@ class BluetoothConnProbe extends OnEventProbe {
     }
 
     private void printData(){
-        logOnFile(true, connectedDevices);
+        logOnFile(true, new BTDevices(connectedDevices));
     }
 
     class BTEventsReceiver extends BroadcastReceiver {

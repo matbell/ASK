@@ -96,9 +96,7 @@ class CallsProbe extends OnEventProbe {
 
     @Override
     public void onFirstRun() {
-
-        for(Call call : CallsController.getAllCalls(getContext()))
-            logOnFile(false, call.getDataToPrint());
+        logOnFile(false, CallsController.getAllCalls(getContext()));
     }
 
     @Override
@@ -108,8 +106,7 @@ class CallsProbe extends OnEventProbe {
 
         String name = ContactsController.getNameFromNumber(getContext(), number);
 
-        logOnFile(false, new Call(new Date().getTime(), name, number,
-                incoming).getDataToPrint());
+        logOnFile(false, new Call(new Date().getTime(), name, number, incoming));
 
     }
 }

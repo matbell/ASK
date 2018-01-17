@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 
 import it.matbell.ask.commons.Utils;
+import it.matbell.ask.model.WiFiScanInfo;
 
 /**
  * This probe performs a continuous Wi-Fi scan to discover the Wi-Fi Access Points in proximity.
@@ -87,7 +88,7 @@ class WiFiProbe extends ContinuousProbe {
 
                 if (results != null) {
 
-                    List<String> data = new ArrayList<>();
+                    WiFiScanInfo wiFiScanInfo = new WiFiScanInfo();
 
                     for (ScanResult result : results) {
 
@@ -95,14 +96,13 @@ class WiFiProbe extends ContinuousProbe {
                         boolean configured = configuredNets != null &&
                                 configuredNets.contains("\""+result.SSID+"\"");
 
-                        data.add(StringUtils.join(Arrays.asList(result.SSID, result.BSSID,
+                        wiFiScanInfo.addAp(result.SSID, result.BSSID,
                                 WifiManager.calculateSignalLevel(result.level, MAX_RSSI_LEVELS),
-                                result.level, result.capabilities,
-                                result.frequency, String.valueOf(connected),
-                                String.valueOf(configured)), ","));
+                                result.level, result.capabilities, result.frequency, connected,
+                                configured);
                     }
 
-                    if(data.size() != 0) logOnFile(true, data);
+                    if(wiFiScanInfo.wiFiAps.size() != 0) logOnFile(true, wiFiScanInfo);
                 }
 
                 stop();

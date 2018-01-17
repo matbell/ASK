@@ -45,6 +45,7 @@ RING_MODE           | 0 (Silent), 1 (Vibrate), 2 (Normal)   | Ring mode
 ALARM_VOLUME        | \[0, 1\]                              | Alarm volume level
 MUSIC_VOLUME        | \[0, 1\]                              | Music volume level
 NOTIFICATION_VOLUME | \[0, 1\]                              | Notifications volume level
+RING_VOLUME         | \[0, 1\]                              | Ring volume level
 BT_SCO              | TRUE / FALSE                          | If a Bluetooth SCO device is connected
 MIC_MUTE            | TRUE / FALSE                          | If microphone is mute
 MUSIC_ON            | TRUE / FALSE                          | If music is on
@@ -95,7 +96,6 @@ WI_FI_P2P_MAC       | The MAC address associated to the Wi-Fi P2P interface
 BT_MAC              | The MAC address associated to the Bluetooth interface
 BRAND               | The device's brand
 MODEL               | The device's model
-MANUFACTURER        | The device's manufacturer
 DEVICE_ID           | The unique device ID (i.e., the IMEI for GSM and the MEID or ESN for CDMA phones)
 PHONE_NUMBER        | The phone number associated to the SIM card.
 

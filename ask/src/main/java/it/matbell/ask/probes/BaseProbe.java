@@ -23,9 +23,9 @@ package it.matbell.ask.probes;
 import android.content.Context;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import it.matbell.ask.logs.FileLogger;
+import it.matbell.ask.model.Loggable;
 
 /**
  * This is the probes' base class.
@@ -57,39 +57,11 @@ public abstract class BaseProbe {
     public abstract void onFirstRun();
     abstract void onStop();
 
-    void logOnFile(boolean withTimeStamp, Object...objects){
-
-        String[] data = new String[objects.length];
-        for(int i=0; i<objects.length; i++)
-            data[i] = objects[i].toString();
-
-        logOnFile(withTimeStamp, data);
+    void logOnFile(boolean withTimeStamp, Collection<? extends Loggable> data){
+        if(logFile != null) FileLogger.getInstance().store(logFile, data, withTimeStamp);
     }
 
-    void logOnFile(boolean withTimeStamp, Collection objects){
-
-        String[] data = new String[objects.size()];
-
-        Iterator iterator = objects.iterator();
-
-        int i=0;
-        while (iterator.hasNext()){
-
-            data[i] = iterator.next().toString();
-            i++;
-        }
-
-        logOnFile(withTimeStamp, data);
-    }
-
-    void logOnFile(double[] data, boolean withTimeStamp){
-
-        if(logFile != null)
-            FileLogger.getInstance(getContext()).store(logFile, data, withTimeStamp);
-    }
-
-    void logOnFile(boolean withTimeStamp, String...data){
-        if(logFile != null)
-            FileLogger.getInstance(getContext()).store(logFile, withTimeStamp, data);
+    void logOnFile(boolean withTimeStamp, Loggable data){
+        if(logFile != null) FileLogger.getInstance().store(logFile, data, withTimeStamp);
     }
 }

@@ -64,6 +64,7 @@ class DisplayProbe extends OnEventProbe {
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         getContext().registerReceiver(displayReceiver, intentFilter);
 
+        fetchData();
     }
 
     @Override
@@ -75,8 +76,7 @@ class DisplayProbe extends OnEventProbe {
     }
 
     private void fetchData(){
-
         logOnFile(true, new DisplayInfo(displayManager.getDisplay(
-                Display.DEFAULT_DISPLAY)).getDataToPrint());
+                Display.DEFAULT_DISPLAY)));
     }
 }

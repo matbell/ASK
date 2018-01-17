@@ -25,11 +25,9 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.google.android.gms.location.ActivityRecognitionResult;
-import com.google.android.gms.location.DetectedActivity;
-
-import java.util.List;
 
 import it.matbell.ask.logs.FileLogger;
+import it.matbell.ask.model.ActivityRecognitionData;
 
 /**
  * This IntentService has been used by the {@link ActivityRecognitionProbe} to receive the intents
@@ -52,55 +50,13 @@ public class ActivityRecognitionReceiver extends IntentService {
 
         if(result != null) {
 
-            List<DetectedActivity> activities = result.getProbableActivities();
-
-            int[] act = new int[8];
-            for (DetectedActivity da : activities) {
-
-                int pos = -1;
-
-                switch (da.getType()){
-                    case DetectedActivity.IN_VEHICLE:
-                        pos = 0;
-                        break;
-
-                    case DetectedActivity.ON_BICYCLE:
-                        pos = 1;
-                        break;
-
-                    case DetectedActivity.ON_FOOT:
-                        pos = 2;
-                        break;
-
-                    case DetectedActivity.RUNNING:
-                        pos = 3;
-                        break;
-
-                    case DetectedActivity.STILL:
-                        pos = 4;
-                        break;
-
-                    case DetectedActivity.TILTING:
-                        pos = 5;
-                        break;
-
-                    case DetectedActivity.WALKING:
-                        pos = 6;
-                        break;
-
-                    case DetectedActivity.UNKNOWN:
-                        pos = 7;
-                        break;
-                }
-
-                if(pos != -1) act[pos] = da.getConfidence();
-            }
+            ActivityRecognitionData data = new ActivityRecognitionData(result);
 
             if(intent != null && intent.hasExtra(ActivityRecognitionProbe.LOG_INTENT_FIELD) &&
                     intent.getStringExtra(ActivityRecognitionProbe.LOG_INTENT_FIELD) != null) {
 
-                FileLogger.getInstance(getApplicationContext()).store(intent.getStringExtra(
-                        ActivityRecognitionProbe.LOG_INTENT_FIELD), act, true);
+                FileLogger.getInstance().store(intent.getStringExtra(
+                        ActivityRecognitionProbe.LOG_INTENT_FIELD), data, true);
             }
         }
 

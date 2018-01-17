@@ -25,12 +25,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.Arrays;
-import java.util.List;
 
 import it.matbell.ask.controllers.network.GsonRequest;
+import it.matbell.ask.model.OpenWeatherData;
 
 public class WeatherController {
 
@@ -63,13 +60,13 @@ public class WeatherController {
                 break;
         }
 
-        GsonRequest<OpenWeatherMapJsonResponse> request = new GsonRequest<>(url,
-                OpenWeatherMapJsonResponse.class,
+        GsonRequest<OpenWeatherData> request = new GsonRequest<>(url,
+                OpenWeatherData.class,
                 null,
-                new Response.Listener<OpenWeatherMapJsonResponse>() {
+                new Response.Listener<OpenWeatherData>() {
                     @Override
-                    public void onResponse(OpenWeatherMapJsonResponse response) {
-                        listener.onWeatherAvailable(response.getDataToPrint());
+                    public void onResponse(OpenWeatherData response) {
+                        listener.onWeatherAvailable(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -82,56 +79,8 @@ public class WeatherController {
     }
 
     public interface WeatherListener{
-        void onWeatherAvailable(Object[] data);
+        void onWeatherAvailable(OpenWeatherData data);
         void onWeatherFailed(String reason);
     }
-
-    private class OpenWeatherMapJsonResponse{
-
-        List<WeatherField> weather;
-        MainInfo main;
-        WindField wind;
-        CloudsField clouds;
-        RainField rain;
-        SnowField snow;
-        SysField sys;
-
-        public Object[] getDataToPrint(){
-
-            return Arrays.asList(
-                    weather != null ? String.valueOf(weather.get(0).id) : 0,
-                    main != null ? String.valueOf(main.temp) : 0,
-                    main != null ? String.valueOf(main.temp_min) : 0,
-                    main != null ? String.valueOf(main.temp_max) : 0,
-                    main != null ? String.valueOf(main.humidity) : 0,
-                    main != null ? String.valueOf(main.pressure) : 0,
-                    wind != null ? String.valueOf(wind.speed) : 0,
-                    wind != null ? String.valueOf(wind.deg) : 0,
-                    clouds != null ? String.valueOf(clouds.all) : 0,
-                    rain != null ? String.valueOf(rain.last3hours) : 0,
-                    snow != null ? String.valueOf(snow.last3hours) : 0,
-                    sys != null ? String.valueOf(sys.sunrise) : 0,
-                    sys != null ? String.valueOf(sys.sunset) : 0
-            ).toArray();
-        }
-
-    }
-
-    private class WeatherField{
-        // Weather condition codes: http://www.openweathermap.com/weather-conditions
-        int id;
-    }
-
-    private class MainInfo{ float temp, temp_min, temp_max, humidity, pressure; }
-
-    private class WindField{ float speed, deg; }
-
-    private class CloudsField{ float all; }
-
-    private class RainField{ @SerializedName("3h") float last3hours; }
-
-    private class SnowField{ @SerializedName("3h") float last3hours; }
-
-    private class SysField{ long sunrise, sunset; }
 
 }

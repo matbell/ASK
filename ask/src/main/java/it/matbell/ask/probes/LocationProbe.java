@@ -28,6 +28,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.Arrays;
 
+import it.matbell.ask.model.LocationInfo;
+
 /**
  * This probe monitors the geographical location of the local device. Specifically, it reports the
  * following information:
@@ -76,11 +78,7 @@ class LocationProbe extends ContinuousProbe {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-
-                            logOnFile(true, Arrays.asList(location.getLatitude(),
-                                    location.getLongitude(), location.getSpeed(),
-                                    location.getAccuracy(), location.getAltitude(),
-                                    location.getBearing(), location.getTime()).toArray());
+                            logOnFile(true, new LocationInfo(location));
                         }
                     }
                 });

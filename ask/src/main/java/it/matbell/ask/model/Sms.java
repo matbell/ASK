@@ -22,12 +22,10 @@ package it.matbell.ask.model;
 
 import android.content.Context;
 
-import java.util.Arrays;
-
-import it.matbell.ask.commons.Utils;
 import it.matbell.ask.controllers.ContactsController;
+import it.matbell.ask.logs.FileLogger;
 
-public class Sms {
+public class Sms implements Loggable{
 
     private String address, body;
     private long timestamp;
@@ -49,13 +47,9 @@ public class Sms {
 
     public long getId(){return id;}
 
-    public Object[] getDataToPrint(){
-
-        return Arrays.asList(timestamp, address, sent, containsUrl, fromAddressBook).toArray();
-    }
-
     @Override
-    public String toString(){
-        return Utils.formatLogOutput(timestamp, address, body, sent, containsUrl, fromAddressBook);
+    public String getDataToLog() {
+        return timestamp + FileLogger.SEP + address + FileLogger.SEP + sent +
+                FileLogger.SEP + containsUrl + FileLogger.SEP + fromAddressBook;
     }
 }

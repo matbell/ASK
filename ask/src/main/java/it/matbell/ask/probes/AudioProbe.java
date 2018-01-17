@@ -56,7 +56,7 @@ class AudioProbe extends ContinuousProbe {
         AudioInfo audioInfo = AudioController.getAudioInfo(getContext());
 
         if(audioInfo != null){
-            logOnFile(true, audioInfo.getDataToPrint());
+            logOnFile(true, audioInfo);
         }
     }
 }

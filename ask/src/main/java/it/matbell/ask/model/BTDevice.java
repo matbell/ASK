@@ -25,19 +25,13 @@ import android.support.annotation.NonNull;
 
 import java.util.Comparator;
 
-public class BTDevice implements Comparable<BTDevice>, Comparator<BTDevice>{
+public class BTDevice implements Comparable<BTDevice>, Comparator<BTDevice>, Loggable{
 
     private String name, address;
 
     public BTDevice(BluetoothDevice device){
         this.name = device.getName();
         this.address = device.getAddress();
-    }
-
-    @Override
-    public String toString() {
-
-        return address;
     }
 
     @Override
@@ -58,5 +52,10 @@ public class BTDevice implements Comparable<BTDevice>, Comparator<BTDevice>{
     @Override
     public boolean equals(Object obj) {
         return obj instanceof BTDevice && ((BTDevice)obj).address.equals(address);
+    }
+
+    @Override
+    public String getDataToLog() {
+        return name + "," + address;
     }
 }

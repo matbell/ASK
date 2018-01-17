@@ -22,8 +22,6 @@ package it.matbell.ask.logs;
 
 import android.content.Context;
 
-import com.snatik.storage.Storage;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -43,8 +41,7 @@ class Zipper {
     public Zipper(Context context){
 
         this.context = context;
-        Storage storage = new Storage(context.getApplicationContext());
-        baseDir = FileLogger.getInstance(context).basePath;
+        baseDir = FileLogger.getInstance().basePath;
 
     }
 

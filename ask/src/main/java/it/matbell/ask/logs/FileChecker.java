@@ -69,7 +69,7 @@ public class FileChecker {
 
         Log.d("FileChecker", "Checking log files...");
 
-        String path = FileLogger.getInstance(context).basePath;
+        String path = FileLogger.getInstance().basePath;
 
         File directory = new File(path);
 

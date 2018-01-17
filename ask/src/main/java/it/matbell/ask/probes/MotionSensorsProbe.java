@@ -26,6 +26,7 @@ import android.hardware.SensorManager;
 import org.apache.commons.lang3.ArrayUtils;
 
 import it.matbell.ask.controllers.SensorMonitor;
+import it.matbell.ask.model.SensorsStats;
 
 /**
  * Monitors sensors that measure acceleration forces and rotational forces along three axes. This
@@ -97,6 +98,6 @@ class MotionSensorsProbe extends ContinuousProbe {
             sensorMonitor.resetSamples(sensorId);
         }
 
-        logOnFile(stats, true);
+        logOnFile(true, new SensorsStats(stats));
     }
 }

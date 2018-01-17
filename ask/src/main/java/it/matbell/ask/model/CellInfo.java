@@ -20,9 +20,7 @@
 
 package it.matbell.ask.model;
 
-import it.matbell.ask.commons.Utils;
-
-public class CellInfo {
+public class CellInfo implements Loggable{
 
     public static final int TYPE_GSM = 0;
     public static final int TYPE_LTE = 1;
@@ -38,7 +36,7 @@ public class CellInfo {
     }
 
     @Override
-    public String toString() {
-        return Utils.formatLogOutput(cellType, id, signalLevel);
+    public String getDataToLog() {
+        return cellType + "," + id + "," + signalLevel;
     }
 }
