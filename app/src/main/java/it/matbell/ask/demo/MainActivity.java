@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startASK(){
         ask = new ASK(this, getResources().getString(R.string.ask_conf));
-        ask.start();
+        ask.startForeground();
     }
 
     private void stopASK(){
