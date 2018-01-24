@@ -20,8 +20,6 @@
 
 package it.matbell.ask;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +27,6 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +45,6 @@ public class ASKManager extends Service {
 
     public static boolean RUNNING = false;
 
-    private static final String NOTIFICATION_CHANNEL_ID = "it.matbell.ask";
-    private static final int REQUEST_CODE = 1;
-
-    public static final String ACTION_START_FOREGROUND = "it.matbell.ask.ACTION_START_FOREGROUND";
-
-    // Intent used to start the service
-    public static final String SETUP_INTENT = "it.matbell.ask.SETUP_INTENT";
     // Intent's action that contains the Json configuration string
     public static final String SETUP_KEY = "ASKSetup";
 
@@ -93,7 +83,7 @@ public class ASKManager extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if(!RUNNING && intent.getAction() == null) {
+        if(!RUNNING) {
             String configuration = getConfiguration(intent);
 
             parseConfiguration(configuration);
@@ -107,30 +97,9 @@ public class ASKManager extends Service {
 
             RUNNING = true;
 
-        } else if(!RUNNING && intent.getAction() != null && intent.getAction().equals(ACTION_START_FOREGROUND)){
-
-            //startForeground(getCompatNotification());
-
-            String configuration = getConfiguration(intent);
-            parseConfiguration(configuration);
-            RUNNING = true;
         }
 
         return Service.START_STICKY;
-    }
-
-    private Notification getCompatNotification(int notificationiconResource,
-                                               String notificationTitle,
-                                               String notificationTicker,
-                                               Class<?> caller){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        builder.setSmallIcon(notificationiconResource).setContentTitle(notificationTitle)
-                .setTicker(notificationTicker).setWhen(System.currentTimeMillis());
-        Intent startIntent = new Intent(getApplicationContext(), caller);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, REQUEST_CODE, startIntent, 0);
-        builder.setContentIntent(contentIntent);
-
-        return builder.build();
     }
 
     /**
@@ -206,8 +175,7 @@ public class ASKManager extends Service {
 
         String configuration;
 
-        if(intent != null && intent.getAction()!= null && intent.getAction().equals(SETUP_INTENT)
-                && intent.hasExtra(SETUP_KEY)){
+        if(intent != null && intent.hasExtra(SETUP_KEY)){
             configuration = intent.getStringExtra(SETUP_KEY);
 
         }else{

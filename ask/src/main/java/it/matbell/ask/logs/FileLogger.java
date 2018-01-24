@@ -28,6 +28,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import it.matbell.ask.commons.Utils;
 import it.matbell.ask.model.Loggable;
@@ -76,7 +77,7 @@ public class FileLogger {
 
                     FileWriter fw = new FileWriter(file, true);
 
-                    long currentTime = Calendar.getInstance().getTime().getTime();
+                    Date currentTime = Calendar.getInstance().getTime();
 
                     for(Loggable printable : data){
 
@@ -85,7 +86,7 @@ public class FileLogger {
 
                         if(withTimeStamp){
 
-                            toWrite = currentTime + SEP + printable.getDataToLog();
+                            toWrite = currentTime.toString() + SEP + printable.getDataToLog();
 
                         } else{
                             toWrite = printable.getDataToLog();
@@ -129,8 +130,8 @@ public class FileLogger {
 
                     if(withTimeStamp){
 
-                        long currentTime = Calendar.getInstance().getTime().getTime();
-                        toWrite = currentTime + SEP + data.getDataToLog();
+                        Date currentTime = Calendar.getInstance().getTime();
+                        toWrite = currentTime.toString() + SEP + data.getDataToLog();
 
                     } else{
                         toWrite = data.getDataToLog();

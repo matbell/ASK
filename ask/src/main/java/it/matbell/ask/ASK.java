@@ -48,20 +48,8 @@ public class ASK {
         if(!ASKManager.RUNNING) {
             Intent intent = new Intent(context, ASKManager.class);
             intent.putExtra(ASKManager.SETUP_KEY, jsonConfiguration);
-            intent.setAction(ASKManager.SETUP_INTENT);
             context.startService(intent);
         }
-    }
-
-    public void startForeground(){
-
-        if(!ASKManager.RUNNING) {
-            Intent intent = new Intent(ASKManager.ACTION_START_FOREGROUND);
-            intent.putExtra(ASKManager.SETUP_KEY, jsonConfiguration);
-            intent.setAction(ASKManager.SETUP_INTENT);
-            context.startService(intent);
-        }
-
     }
 
     public void stop(){
@@ -70,6 +58,5 @@ public class ASK {
 
             context.stopService(new Intent(context, ASKManager.class));
         }
-
     }
 }

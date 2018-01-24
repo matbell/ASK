@@ -71,17 +71,19 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         checkPermissions();
+
+        if(ASKManager.RUNNING) ((Button)findViewById(R.id.button2)).setText("STOP READING");
+        else ((Button)findViewById(R.id.button2)).setText("START NEW READING");
     }
 
     private void startASK(){
         ask = new ASK(this, getResources().getString(R.string.ask_conf));
-        ask.startForeground();
+        ask.start();
     }
 
     private void stopASK(){
-        if(ask != null){
-            ask.stop();
-        }
+
+        if(ask != null) ask.stop();
     }
 
     public void onControlClicked(View view){
