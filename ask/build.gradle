@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'it.matbell'
     PUBLISH_ARTIFACT_ID = 'ask'
-    PUBLISH_VERSION = '0.6'
+    PUBLISH_VERSION = '0.6.1'
 }
 
 android {
@@ -13,7 +13,7 @@ android {
         minSdkVersion 20
         targetSdkVersion 26
         versionCode 6
-        versionName "0.6"
+        versionName "0.6.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -46,7 +46,6 @@ dependencies {
     implementation 'me.everything:providers-android:1.0.1'
 
     implementation 'com.android.volley:volley:1.1.0'
-    implementation 'it.mcampana:instadroid:0.1.1'
 
     apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
 }
