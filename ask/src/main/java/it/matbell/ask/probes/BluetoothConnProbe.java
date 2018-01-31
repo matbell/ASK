@@ -27,12 +27,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import it.matbell.ask.commons.Utils;
 import it.matbell.ask.model.BTDevice;
 import it.matbell.ask.model.BTDevices;
 
@@ -50,6 +48,7 @@ class BluetoothConnProbe extends OnEventProbe {
     private Set<BTDevice> connectedDevices = new HashSet<>();
     private BTEventsReceiver receiver;
     private int receivedProxies = 0;
+    private boolean btEnabled = false;
 
     private BluetoothProfile.ServiceListener initialServiceListener = new BluetoothProfile.ServiceListener() {
         @Override

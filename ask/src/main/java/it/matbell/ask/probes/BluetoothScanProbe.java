@@ -30,6 +30,7 @@ import android.content.IntentFilter;
 import java.util.HashSet;
 import java.util.Set;
 
+import it.matbell.ask.controllers.BluetoothController;
 import it.matbell.ask.model.BTDevice;
 
 /**
@@ -49,6 +50,7 @@ class BluetoothScanProbe extends ContinuousProbe {
     private Set<BTDevice> devices = new HashSet<>();
 
     private BroadcastReceiver btReceiver = new BroadcastReceiver() {
+
         @Override
         public void onReceive(Context context, Intent intent) {
 
@@ -63,9 +65,29 @@ class BluetoothScanProbe extends ContinuousProbe {
         }
     };
 
+    private BroadcastReceiver btStateReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action != null && action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
+                        BluetoothAdapter.ERROR);
+
+                switch (state) {
+                    case BluetoothAdapter.STATE_ON:
+                        performTask();
+                        break;
+                }
+            }
+        }
+    };
+
     @Override
     public void init() {
         getContext().registerReceiver(btReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+        getContext().registerReceiver(btStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
     }
 
     @Override
@@ -80,9 +102,21 @@ class BluetoothScanProbe extends ContinuousProbe {
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public void exec() {
+
+        boolean waitBtEnable=false;
+
+        if(!BluetoothController.isBluetoothEnabled()){
+            BluetoothController.setBluetooth(true);
+            waitBtEnable = true;
+        }
+
+        if(!waitBtEnable) performTask();
+    }
+
+    @SuppressWarnings("all")
+    private void performTask(){
         if (mBtAdapter.isDiscovering()) {
             mBtAdapter.cancelDiscovery();
         }

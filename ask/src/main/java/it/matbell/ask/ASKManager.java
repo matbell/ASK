@@ -84,6 +84,7 @@ public class ASKManager extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if(!RUNNING) {
+
             String configuration = getConfiguration(intent);
 
             parseConfiguration(configuration);
