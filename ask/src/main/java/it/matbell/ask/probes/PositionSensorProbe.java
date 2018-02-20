@@ -22,6 +22,7 @@ package it.matbell.ask.probes;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -102,5 +103,6 @@ class PositionSensorProbe extends ContinuousProbe {
         }
 
         logOnFile(true, new SensorsStats(stats));
+        Log.d("POS", (new SensorsStats(stats)).getDataToLog());
     }
 }
