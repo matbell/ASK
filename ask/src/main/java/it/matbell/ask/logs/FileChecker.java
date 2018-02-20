@@ -87,6 +87,8 @@ public class FileChecker {
             String zip = new Zipper(context).zip(files);
             Log.d("FileChecker", "Zip created: " + zip);
 
+            for(File file : files) file.delete();
+
             if(fileSender != null) {
 
                 File[] zips = directory.listFiles(new FilenameFilter() {
