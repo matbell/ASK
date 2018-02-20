@@ -2,7 +2,10 @@
     <string name="app_name">ASKDemo</string>
     <string name="ask_conf">
         {
-            "logPath" : "testLogDir",
+            "logPath" : "test_dir",
+            "remoteLoggerDest": \"http://url.com\",
+            "zipperInterval" : 300000,
+            "maxLogSizeMb": 2097152,
             "probes" : [
                 {
                     "name" : "EnvironmentSensorProbe",

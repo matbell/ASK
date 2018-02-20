@@ -21,7 +21,6 @@
 package it.matbell.ask;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
@@ -31,6 +30,7 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.matbell.ask.controllers.PreferencesController;
 import it.matbell.ask.logs.FileChecker;
 import it.matbell.ask.logs.FileLogger;
 import it.matbell.ask.logs.FileSender;
@@ -48,10 +48,7 @@ public class ASKManager extends Service {
     // Intent's action that contains the Json configuration string
     public static final String SETUP_KEY = "ASKSetup";
 
-    // Shared preferences
-    private static final String PREFS = "it.matbell.ask";
-    private static final String PREF_LAST_CONFIG_KEY = "lastConfig";
-    private static final String PREF_FIRST_RUN_KEY = "firstRun";
+
 
     private List<Worker> workers = new ArrayList<>();
     private FileChecker fileChecker;
@@ -128,7 +125,7 @@ public class ASKManager extends Service {
             Worker worker = null;
 
             if(probe instanceof OnEventProbe)
-                worker = new SimpleWorker(probe, isFirstRun());
+                worker = new SimpleWorker(probe, PreferencesController.isFirstRun(this));
 
             else if(probe instanceof ContinuousProbe)
                 worker = new ThreadWorker((ContinuousProbe) probe, true);
@@ -141,25 +138,7 @@ public class ASKManager extends Service {
             }
         }
 
-        firstRunDone();
-    }
-
-    /**
-     * Checks if this is the first time that the service has been executed.
-     *
-     * @return      True if this is the first execution, False otherwise.
-     */
-    private boolean isFirstRun(){
-        return getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(
-                PREF_FIRST_RUN_KEY, true);
-    }
-
-    /**
-     * Sets a flag in the shared preferences to remember if the first run has been executed or not.
-     */
-    private void firstRunDone(){
-        getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(
-                PREF_FIRST_RUN_KEY, false).apply();
+        PreferencesController.firstRunDone(this);
     }
 
     /**
@@ -181,14 +160,12 @@ public class ASKManager extends Service {
 
         }else{
 
-            configuration = getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(
-                    PREF_LAST_CONFIG_KEY, null);
+            configuration = PreferencesController.getSavedConfiguration(this);
 
         }
 
         if(configuration != null)
-            getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(
-                    PREF_LAST_CONFIG_KEY, configuration).apply();
+            PreferencesController.saveConfiguration(this, configuration);
 
         return configuration;
     }

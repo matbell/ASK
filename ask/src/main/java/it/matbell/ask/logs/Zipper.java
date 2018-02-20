@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import it.matbell.ask.controllers.HardwareInfoController;
+import it.matbell.ask.controllers.PreferencesController;
 
 class Zipper {
 
@@ -56,7 +56,7 @@ class Zipper {
 
         if(fileList.size() > 0) {
 
-            zipFile = baseDir + File.separator + HardwareInfoController.getDeviceID(context)
+            zipFile = baseDir + File.separator + PreferencesController.getUniqueDeviceID(context)
             + "_" + (System.currentTimeMillis()/1000) + ".zip";
 
             createZip(zipFile, fileList);
