@@ -3,17 +3,17 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'it.matbell'
     PUBLISH_ARTIFACT_ID = 'ask'
-    PUBLISH_VERSION = '0.6.3'
+    PUBLISH_VERSION = '0.6.2'
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 26
 
     defaultConfig {
         minSdkVersion 20
-        targetSdkVersion 27
+        targetSdkVersion 26
         versionCode 6
-        versionName "0.6.3"
+        versionName "0.6.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -35,7 +35,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
