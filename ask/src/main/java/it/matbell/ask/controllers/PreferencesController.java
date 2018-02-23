@@ -1,6 +1,7 @@
 package it.matbell.ask.controllers;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.UUID;
 
@@ -27,14 +28,12 @@ public class PreferencesController {
     public static void firstRunDone(Context context){
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(
                 PREF_FIRST_RUN_KEY, false).apply();
-        generateUniqueDeviceID(context);
     }
 
-    private static void generateUniqueDeviceID(Context context){
-
-        String uniqueID = UUID.randomUUID().toString();
+    public static void generateUniqueDeviceID(Context context){
+        Log.d("PREF_CONTROLLER", "First run, generating the UUID");
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(
-                PREF_FIRST_RUN_KEY, uniqueID).apply();
+                PREF_DEVICE_ID, UUID.randomUUID().toString()).apply();
     }
 
     public static String getUniqueDeviceID(Context context){

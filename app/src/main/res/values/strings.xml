@@ -3,9 +3,9 @@
     <string name="ask_conf">
         {
             "logPath" : "test_dir",
-            "remoteLoggerDest": \"http://url.com\",
-            "zipperInterval" : 300000,
-            "maxLogSizeMb": 2097152,
+            "remoteLoggerDest": \"http://url/upload\",
+            "zipperInterval" : 1,
+            "maxLogSizeMb": 1,
             "probes" : [
                 {
                     "name" : "EnvironmentSensorProbe",

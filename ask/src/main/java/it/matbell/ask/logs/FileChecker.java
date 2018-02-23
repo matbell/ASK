@@ -21,7 +21,6 @@
 package it.matbell.ask.logs;
 
 import android.content.Context;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
@@ -87,9 +86,7 @@ public class FileChecker {
             String zip = new Zipper(context).zip(files);
             Log.d("FileChecker", "Zip created: " + zip);
 
-            for(File file : files) file.delete();
-
-            if(fileSender != null) {
+            if(fileSender != null && zip != null) {
 
                 File[] zips = directory.listFiles(new FilenameFilter() {
                     public boolean accept(File dir, String name) {
@@ -98,7 +95,6 @@ public class FileChecker {
                 });
 
                 fileSender.send(context, zips);
-
             }
         }
     }

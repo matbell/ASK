@@ -97,7 +97,5 @@ class EnvironmentSensorProbe extends ContinuousProbe {
         }
 
         logOnFile(true, new SensorsStats(stats));
-
-        Log.d("ENV", (new SensorsStats(stats)).getDataToLog());
     }
 }

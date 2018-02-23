@@ -68,6 +68,7 @@ public class FileSender {
 
     }
 
+
     private static class AsyncSender extends AsyncTask<File, Void, Void> {
 
         private String backendUrl;
@@ -160,7 +161,7 @@ public class FileSender {
                         dos.close();
 
                     } catch (Exception e) {
-
+                        e.printStackTrace();
                         Log.e(Utils.TAG, FileSender.class.getName() + " : " + e.getMessage());
 
                     }
@@ -168,7 +169,7 @@ public class FileSender {
 
 
             } catch (Exception ex) {
-
+                ex.printStackTrace();
                 Log.e(Utils.TAG, FileSender.class.getName() + " : " + ex.getMessage());
             }
             return null;

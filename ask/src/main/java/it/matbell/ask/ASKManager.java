@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +110,12 @@ public class ASKManager extends Service {
         new ParseTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, jsonConf);
     }
 
-    void startProbes(ASKSetup setup ){
+    void startProbes(ASKSetup setup){
+
+        Log.d("ASK", "Checking first run: " + PreferencesController.isFirstRun(this));
+        if(PreferencesController.isFirstRun(this)){
+            PreferencesController.generateUniqueDeviceID(this);
+        }
 
         FileSender fileSender = null;
         if(setup.remoteLogger != null) fileSender = new FileSender(setup.remoteLogger);

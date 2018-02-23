@@ -100,6 +100,5 @@ class MotionSensorsProbe extends ContinuousProbe {
         }
 
         logOnFile(true, new SensorsStats(stats));
-        Log.d("MOT", (new SensorsStats(stats)).getDataToLog());
     }
 }

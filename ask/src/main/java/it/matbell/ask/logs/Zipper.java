@@ -21,11 +21,19 @@
 package it.matbell.ask.logs;
 
 import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -34,7 +42,7 @@ import java.util.zip.ZipOutputStream;
 import it.matbell.ask.controllers.PreferencesController;
 
 class Zipper {
-
+    private static final int BUFFER = 1024;
     private String baseDir;
     private Context context;
 
@@ -47,29 +55,127 @@ class Zipper {
 
     public String zip(File[] files){
 
-        List<String> fileList = new ArrayList<>();
+        String tempDir = createTempDir();
+
         String zipFile = null;
 
-        for(File file : files)
-            if(file.isFile())
-                fileList.add(generateZipEntry(file.getAbsoluteFile().toString()));
+        if(tempDir != null){
+            Log.d("ZIPPER", "TempDir: " + tempDir);
+            moveFiles(files, tempDir);
 
-        if(fileList.size() > 0) {
+            zipFile = tempDir + ".zip";
+            createZipFromDirectory(zipFile, tempDir);
 
-            zipFile = baseDir + File.separator + PreferencesController.getUniqueDeviceID(context)
-            + "_" + (System.currentTimeMillis()/1000) + ".zip";
-
-            createZip(zipFile, fileList);
+            try {
+                FileUtils.deleteDirectory(new File(tempDir));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return zipFile;
+    }
+
+    private String createTempDir(){
+
+        String dirName = baseDir + File.separator + PreferencesController.getUniqueDeviceID(context)
+                + "_" + (System.currentTimeMillis()/1000);
+
+        File dirFile = new File(Environment.getExternalStorageDirectory(), dirName);
+        if (!dirFile.exists()) {
+            if (!dirFile.mkdirs()) {
+                Log.e("ASK_ZIPPER", "Problem creating " + dirName);
+                return null;
+            }
+        }
+
+        return dirName;
+    }
+
+    private void moveFiles(File[] files, String destDir){
+
+        for(File file : files){
+
+            File newFile = new File(destDir + "/" + file.getName());
+            try {
+                FileUtils.moveFile(file, newFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void createZipFromDirectory(String zipFile, String srcDir) {
+
+        try {
+
+            FileOutputStream fos = new FileOutputStream(zipFile);
+
+            ZipOutputStream zos = new ZipOutputStream(fos);
+
+            File srcFile = new File(srcDir);
+
+            addDirToArchive(zos, srcFile);
+
+            // close the ZipOutputStream
+            zos.close();
+
+        }
+        catch (IOException ioe) {
+            System.out.println("Error creating zip file: " + ioe);
+        }
+
+    }
+
+    private static void addDirToArchive(ZipOutputStream zos, File srcFile) {
+
+        File[] files = srcFile.listFiles();
+
+        System.out.println("Adding directory: " + srcFile.getName());
+
+        for (int i = 0; i < files.length; i++) {
+
+            // if the file is directory, use recursion
+            if (files[i].isDirectory()) {
+                addDirToArchive(zos, files[i]);
+                continue;
+            }
+
+            try {
+
+                System.out.println("tAdding file: " + files[i].getName());
+
+                // create byte buffer
+                byte[] buffer = new byte[1024];
+
+                FileInputStream fis = new FileInputStream(files[i]);
+
+                zos.putNextEntry(new ZipEntry(files[i].getName()));
+
+                int length;
+
+                while ((length = fis.read(buffer)) > 0) {
+                    zos.write(buffer, 0, length);
+                }
+
+                zos.closeEntry();
+
+                // close the InputStream
+                fis.close();
+
+            } catch (IOException ioe) {
+                System.out.println("IOException :" + ioe);
+            }
+
+        }
+
     }
 
     /**
      * Zip it
      * @param zipFile output ZIP file location
      */
-    private void createZip(String zipFile, List<String> inputFiles){
+    private void createZip(String zipFile, String... inputFiles){
 
         byte[] buffer = new byte[1024];
 

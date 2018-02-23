@@ -103,6 +103,5 @@ class PositionSensorProbe extends ContinuousProbe {
         }
 
         logOnFile(true, new SensorsStats(stats));
-        Log.d("POS", (new SensorsStats(stats)).getDataToLog());
     }
 }

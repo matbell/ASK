@@ -86,7 +86,7 @@ public class FileLogger {
 
                         if(withTimeStamp){
 
-                            toWrite = currentTime.toString() + SEP + printable.getDataToLog();
+                            toWrite = currentTime.getTime() + SEP + printable.getDataToLog();
 
                         } else{
                             toWrite = printable.getDataToLog();
@@ -131,7 +131,7 @@ public class FileLogger {
                     if(withTimeStamp){
 
                         Date currentTime = Calendar.getInstance().getTime();
-                        toWrite = currentTime.toString() + SEP + data.getDataToLog();
+                        toWrite = currentTime.getTime() + SEP + data.getDataToLog();
 
                     } else{
                         toWrite = data.getDataToLog();
