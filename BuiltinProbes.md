@@ -6,11 +6,11 @@
     * [Hardware](#HardwareInfoProbe)
     * [Display](#DisplayProbe)
     * [Weather](#WeatherProbe)
+    * [Multimedia](#MultimediaProbe)
 * **Telephony**
     * [Cells Information](#CellInfoProbe)
     * [Phone calls](#CallsProbe)
 * **Calendar**
-    * [All Calendar events](#CalendarProbe)
     * [Current events](#CurrentEventsProbe)
 * **Bluetooth**
     * [Bluetooth connections](#BluetoothConnProbe)
@@ -29,7 +29,7 @@
 
 # General Information
 
-### <a name="AudioProbe"></a>AudioProbe
+### <a name="AudioProbe"></a>AudioProbe (type: <b>ContinuousProbe</b>)
 
 Monitors different events related to the audio system, e.g., the current
 music volume level, if the speaker is on, or if a pair of headset is
@@ -53,7 +53,7 @@ SPEAKER_ON          | TRUE / FALSE                          | If speaker is on
 HEADSET             | TRUE / FALSE                          | If headset (bot wired and Bluetooth) is connected
 
 
-### <a name="BatteryProbe"></a>BatteryProbe
+### <a name="BatteryProbe"></a>BatteryProbe (type: <b>ContinuousProbe</b>)
 
 Monitors the battery status.
 
@@ -67,7 +67,7 @@ BATTERY_PCT         | \[0, 1\]              | Current battery level
 PLUGGED             | TRUE / FALSE          | If the device is connected USB cable
 
 
-### <a name="HardwareInfoProbe"></a>HardwareInfoProbe
+### <a name="HardwareInfoProbe"></a>HardwareInfoProbe (type: <b>ContinuousProbe</b>)
 
 Reads different information related to the device's hardware, e.g., the
 Wi-Fi Mac Address, the phone model, or the phone number associated to
@@ -100,7 +100,7 @@ DEVICE_ID           | The unique device ID (i.e., the IMEI for GSM and the MEID 
 PHONE_NUMBER        | The phone number associated to the SIM card.
 
 
-### <a name="DisplayProbe"></a>DisplayProbe
+### <a name="DisplayProbe"></a>DisplayProbe (type: <b>onEventProbe</b>)
 
 Monitors the display status.
 
@@ -114,7 +114,7 @@ STATE               | _0_ (UNKNOWN), _1_ (OFF), _2_ (ON), _3_ (DOZE), _4_ (DOZE_
 ROTATION            | _0_ (NO_ROTATION), _1_ (ROTATION_90), _2_ (ROTATION_180), _3_ (ROTATION_270). See the Android's [getRotation()](https://developer.android.com/reference/android/view/Display.html#getRotation()) method.
 
 
-### <a name="WeatherProbe"></a>WeatherProbe
+### <a name="WeatherProbe"></a>WeatherProbe (type: <b>ContinuousProbe</b>)
 
 Monitors the current weather conditions (e.g., temperature, humidity,
 etc.) at the current device location.
@@ -163,10 +163,29 @@ SUNRISE_TIME               | Sunrise time (unix UTC timestamp)
 SUNSET_TIME                | Sunset time (unix UTC timestamp)
 
 
+### <a name="MultimediaProbe"></a>MultimediaProbe (type: <b>OnEventProbe</b>)
+
+Monitors the creation of new multimedia files (i.e., pictures and videos).
+
+#### Required Permissions
+
+```
+android.permission.READ_EXTERNAL_STORAGE
+```
+
+#### Returns
+
+Returns the following information:
+
+NAME                       | Value and Description
+---------------------------|--------------------------------------------
+FILE_NAME                  | The file name
+
+
 # Telephony Probes
 
 
-### <a name="CellInfoProbe"></a>CellInfoProbe
+### <a name="CellInfoProbe"></a>CellInfoProbe (type: <b>ContinuousProbe</b>)
 
 Monitors all observed cell information from all radios on the device
 including the primary and neighboring cells.
@@ -189,7 +208,7 @@ BS_ID               | The Base Station ID. Refer to the [android.telephony.CellI
 SIGNAL_LEVEL        | The signal strength as dBm.
 
 
-### <a name="CallsProbe"></a>CallsProbe
+### <a name="CallsProbe"></a>CallsProbe (type: <b>OnEventProbe</b>)
 
 Monitors both incoming and outgoing phone calls.
 
@@ -212,34 +231,9 @@ INCOMING            | _TRUE/FALSE_ if it is an incoming call
 
 # Calendar
 
+### <a name="CurrentEventsProbe"></a>CurrentEventsProbe (type: <b>ContinuousProbe</b>)
 
-### <a name="CalendarProbe"></a>CalendarProbe
-
-Monitors the calendar events.
-
-#### Required Permissions
-
-```
-android.permission.READ_CALENDAR
-```
-
-#### Returns
-
-For each event, returns the following information:
-
-NAME                | Value and Description
---------------------|--------------------------------------------
-CALENDAR_NAME       | Name of the calendar
-START               | When the event starts
-END                 | When the event ends
-TITLE               | The event's title
-LOCATION            | Location of the event (if present)
-ALL_DAY             | _TRUE/FALSE_ if the event lasts all the day
-
-
-### <a name="CurrentEventsProbe"></a>CurrentEventsProbe
-
-Monitors only the calendar events that are active at that time.
+Reports the list of events that are active at a given time.
 
 #### Required Permissions
 
@@ -253,6 +247,7 @@ For each event, returns the following information:
 
 NAME                | Value and Description
 --------------------|--------------------------------------------
+CALENDAR            | Name of the calendar (if available)
 START               | When the event starts
 END                 | When the event ends
 TITLE               | The event's title
@@ -263,7 +258,7 @@ ALL_DAY             | _TRUE/FALSE_ if the event lasts all the day
 # Bluetooth
 
 
-### <a name="BluetoothConnProbe"></a>BluetoothConnProbe
+### <a name="BluetoothConnProbe"></a>BluetoothConnProbe (type: <b>OnEventProbe</b>)
 
 Monitors the connections to bluetooth devices.
 
