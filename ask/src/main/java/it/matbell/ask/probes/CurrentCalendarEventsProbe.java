@@ -24,6 +24,7 @@ import java.util.List;
 
 import it.matbell.ask.controllers.CalendarController;
 import it.matbell.ask.model.CalendarEvent;
+import it.matbell.ask.model.LoggableElements;
 
 /**
  * @author Mattia Campana (m.campana@iit.cnr.it)
@@ -52,6 +53,6 @@ class CurrentCalendarEventsProbe extends ContinuousProbe {
 
         List<CalendarEvent> events = CalendarController.getCurrentEvents(getContext());
 
-        if(events.size() > 0) logOnFile(true, events);
+        if(events.size() > 0) logOnFile(true, new LoggableElements(events));
     }
 }

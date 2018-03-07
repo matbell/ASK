@@ -60,7 +60,8 @@ public class CalendarController {
         for(Instance instance : provider.getInstances(new Date().getTime(),
                 new Date().getTime()).getList()){
 
-            events.add( new CalendarEvent(provider.getEvent(instance.eventId)));
+            CalendarEvent event = new CalendarEvent(provider.getEvent(instance.eventId));
+            if(!event.allDay) events.add(event);
         }
 
         return events;

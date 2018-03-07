@@ -28,7 +28,7 @@ public class CalendarEvent implements Loggable{
     private String calendarName;
     private long start, end;
     private String title, location;
-    private boolean allDay;
+    public boolean allDay;
 
     public CalendarEvent(String calendarName, long start, long end, String title, String location,
                          boolean allDay) {
