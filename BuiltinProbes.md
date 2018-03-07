@@ -274,8 +274,10 @@ For each connected device, returns the following information:
 
 NAME                | Value and Description
 --------------------|--------------------------------------------
+NAME                | Device name (if present)
 ADDRESS             | The device's Bluetooth MAC address.
-BT_CLASS            | The device's [Bluetooth class](https://developer.android.com/reference/android/bluetooth/BluetoothClass.Device.html).
+BT_CLASS            | The device's [Bluetooth Major ID](https://developer.android.com/reference/android/bluetooth/BluetoothClass.Device.Major.html)
+RSSI                | Always "null" here
 
 
 ### <a name="BluetoothScanProbe"></a>BluetoothScanProbe
@@ -296,8 +298,10 @@ For each device in proximity, returns the following information:
 
 NAME                | Value and Description
 --------------------|--------------------------------------------
+NAME                | Device name (if present)
 ADDRESS             | The device's Bluetooth MAC address.
-BT_CLASS            | The device's [Bluetooth class](https://developer.android.com/reference/android/bluetooth/BluetoothClass.Device.html).
+BT_CLASS            | The device's [Bluetooth Major ID](https://developer.android.com/reference/android/bluetooth/BluetoothClass.Device.Major.html)
+RSSI                | Signal strength
 
 
 # Wi-Fi

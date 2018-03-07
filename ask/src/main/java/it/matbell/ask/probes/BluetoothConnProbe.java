@@ -55,7 +55,7 @@ class BluetoothConnProbe extends OnEventProbe {
         public void onServiceConnected(int profile, BluetoothProfile proxy) {
 
             for(BluetoothDevice device : proxy.getConnectedDevices()){
-                connectedDevices.add(new BTDevice(device));
+                connectedDevices.add(new BTDevice(device, null));
             }
             BluetoothAdapter.getDefaultAdapter().closeProfileProxy(profile, proxy);
             receivedProxies++;
@@ -118,7 +118,7 @@ class BluetoothConnProbe extends OnEventProbe {
                     case BluetoothDevice.ACTION_ACL_CONNECTED:
 
                         device = new BTDevice((BluetoothDevice) intent.getParcelableExtra(
-                                BluetoothDevice.EXTRA_DEVICE));
+                                BluetoothDevice.EXTRA_DEVICE), null);
 
                         if(!connectedDevices.contains(device)) {
                             connectedDevices.add(device);
@@ -130,7 +130,7 @@ class BluetoothConnProbe extends OnEventProbe {
                     case BluetoothDevice.ACTION_ACL_DISCONNECTED:
 
                         device = new BTDevice((BluetoothDevice) intent.getParcelableExtra(
-                                BluetoothDevice.EXTRA_DEVICE));
+                                BluetoothDevice.EXTRA_DEVICE), null);
 
                         if(connectedDevices.contains(device)) {
                             connectedDevices.remove(device);

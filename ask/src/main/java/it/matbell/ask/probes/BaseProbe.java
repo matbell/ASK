@@ -58,6 +58,7 @@ public abstract class BaseProbe {
     abstract void onStop();
 
     void logOnFile(boolean withTimeStamp, Collection<? extends Loggable> data){
+
         if(logFile != null) FileLogger.getInstance().store(logFile, data, withTimeStamp);
     }
 

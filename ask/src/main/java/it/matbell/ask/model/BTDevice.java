@@ -28,10 +28,15 @@ import java.util.Comparator;
 public class BTDevice implements Comparable<BTDevice>, Comparator<BTDevice>, Loggable{
 
     private String name, address;
+    private int majorDeviceClass;
+    private Short rssi;
 
-    public BTDevice(BluetoothDevice device){
+    @SuppressWarnings("all")
+    public BTDevice(BluetoothDevice device, Short rssi){
         this.name = device.getName();
         this.address = device.getAddress();
+        this.majorDeviceClass = device.getBluetoothClass().getMajorDeviceClass();
+        this.rssi = rssi;
     }
 
     @Override
@@ -56,6 +61,6 @@ public class BTDevice implements Comparable<BTDevice>, Comparator<BTDevice>, Log
 
     @Override
     public String getDataToLog() {
-        return name + "," + address;
+        return name + "," + address + "," + majorDeviceClass + "," + rssi;
     }
 }

@@ -32,6 +32,7 @@ import java.util.Set;
 
 import it.matbell.ask.controllers.BluetoothController;
 import it.matbell.ask.model.BTDevice;
+import it.matbell.ask.model.LoggableElements;
 
 /**
  * This probe performs a continuous Bluetooth scan and reports both name and address of the BT
@@ -59,8 +60,9 @@ class BluetoothScanProbe extends ContinuousProbe {
             if (BluetoothDevice.ACTION_FOUND.equals(action)){
 
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, (byte)100);
 
-                devices.add(new BTDevice(device));
+                devices.add(new BTDevice(device, rssi));
             }
         }
     };
@@ -121,7 +123,7 @@ class BluetoothScanProbe extends ContinuousProbe {
             mBtAdapter.cancelDiscovery();
         }
 
-        logOnFile(true, devices);
+        logOnFile(true, new LoggableElements(devices));
 
         devices = new HashSet<>();
         mBtAdapter.startDiscovery();
