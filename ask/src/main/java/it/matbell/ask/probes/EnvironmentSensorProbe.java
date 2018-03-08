@@ -22,7 +22,6 @@ package it.matbell.ask.probes;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -49,7 +48,7 @@ class EnvironmentSensorProbe extends ContinuousProbe {
 
     private static final int DEFAULT_MAX_ELEMENTS = 200;
 
-    private static final int[] MOTION_SENSORS = new int[]{
+    private static final int[] ENVIRONMENT_SENSORS = new int[]{
             Sensor.TYPE_AMBIENT_TEMPERATURE,
             Sensor.TYPE_LIGHT,
             Sensor.TYPE_PRESSURE,
@@ -61,10 +60,10 @@ class EnvironmentSensorProbe extends ContinuousProbe {
 
     @Override
     public void init() {
-        sensorMonitor = new SensorMonitor(getContext(), MOTION_SENSORS.length);
+        sensorMonitor = new SensorMonitor(getContext(), ENVIRONMENT_SENSORS.length);
 
-        for (int sensorId : MOTION_SENSORS) {
-            sensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_STATUS_ACCURACY_HIGH,
+        for (int sensorId : ENVIRONMENT_SENSORS) {
+            sensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_DELAY_NORMAL,
                     1, maxSamples);
         }
     }
@@ -74,7 +73,7 @@ class EnvironmentSensorProbe extends ContinuousProbe {
 
     @Override
     void onStop() {
-        for (int sensorId : MOTION_SENSORS) sensorMonitor.unRegisterSensor(sensorId);
+        for (int sensorId : ENVIRONMENT_SENSORS) sensorMonitor.unRegisterSensor(sensorId);
     }
 
     @Override
@@ -86,7 +85,7 @@ class EnvironmentSensorProbe extends ContinuousProbe {
 
         double stats[] = null;
 
-        for (int sensorId : MOTION_SENSORS) {
+        for (int sensorId : ENVIRONMENT_SENSORS) {
 
             double[] sensorData = sensorMonitor.getStats(sensorId);
 
@@ -96,6 +95,6 @@ class EnvironmentSensorProbe extends ContinuousProbe {
             sensorMonitor.resetSamples(sensorId);
         }
 
-        logOnFile(true, new SensorsStats(stats));
+        if(stats != null) logOnFile(true, new SensorsStats(stats));
     }
 }

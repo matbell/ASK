@@ -22,11 +22,9 @@ package it.matbell.ask.probes;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import it.matbell.ask.commons.Utils;
 import it.matbell.ask.controllers.SensorMonitor;
 import it.matbell.ask.model.SensorsStats;
 
@@ -68,7 +66,7 @@ class MotionSensorsProbe extends ContinuousProbe {
         sensorMonitor = new SensorMonitor(getContext(), MOTION_SENSORS.length);
 
         for (int sensorId : MOTION_SENSORS) {
-            sensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_STATUS_ACCURACY_HIGH,
+            sensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_DELAY_NORMAL,
                     3, maxSamples);
         }
     }
@@ -100,7 +98,6 @@ class MotionSensorsProbe extends ContinuousProbe {
             sensorMonitor.resetSamples(sensorId);
         }
 
-        logOnFile(true, new SensorsStats(stats));
-        Log.d(Utils.TAG, "ENV: " + new SensorsStats(stats).getDataToLog());
+        if(stats != null) logOnFile(true, new SensorsStats(stats));
     }
 }

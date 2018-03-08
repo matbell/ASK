@@ -33,7 +33,7 @@ public class SensorSamples {
         for(int i=0; i<nDimensions; i++) dimensions[i] = new DescriptiveStatistics(maxElements);
     }
 
-    public void newVSample(float[] values){
+    public void newSample(float[] values){
 
         for(int i=0; i<dimensions.length; i++)
                 dimensions[i].addValue(values[i]);
@@ -49,22 +49,30 @@ public class SensorSamples {
 
         for(DescriptiveStatistics dim : dimensions){
 
-            double[] dimStats = new double[]{
-                    dim.getMin(),
-                    dim.getMax(),
-                    dim.getMean(),
-                    dim.getQuadraticMean(),
-                    dim.getPercentile(25),
-                    dim.getPercentile(50),
-                    dim.getPercentile(75),
-                    dim.getPercentile(100),
-                    dim.getVariance(),
-                    dim.getPopulationVariance(),
-                    dim.getSkewness(),
-                    dim.getSumsq(),
-                    dim.getStandardDeviation(),
-                    dim.getKurtosis()
-            };
+            double[] dimStats;
+
+            if(dim.getN() == 0) {
+                dimStats = new double[14];
+                for(int i=0; i<14; i++) dimStats[i] = -1;
+
+            }else {
+                dimStats = new double[]{
+                        dim.getMin(),
+                        dim.getMax(),
+                        dim.getMean(),
+                        dim.getQuadraticMean(),
+                        dim.getPercentile(25),
+                        dim.getPercentile(50),
+                        dim.getPercentile(75),
+                        dim.getPercentile(100),
+                        dim.getVariance(),
+                        dim.getPopulationVariance(),
+                        dim.getSkewness(),
+                        dim.getSumsq(),
+                        dim.getStandardDeviation(),
+                        dim.getKurtosis()
+                };
+            }
 
             if(stats == null) stats = dimStats;
             else stats = ArrayUtils.addAll(stats, dimStats);

@@ -39,7 +39,7 @@ public class SensorMonitor {
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            data.get(event.sensor.getType()).newVSample(event.values);
+            data.get(event.sensor.getType()).newSample(event.values);
         }
 
         @Override

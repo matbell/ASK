@@ -70,7 +70,7 @@ class PositionSensorProbe extends ContinuousProbe {
 
             int dimensions = (sensorId == Sensor.TYPE_PROXIMITY) ? 1 : 3;
 
-            sensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_STATUS_ACCURACY_HIGH,
+            sensorMonitor.registerSensor(sensorId, SensorManager.SENSOR_DELAY_NORMAL,
                     dimensions, maxSamples);
         }
     }
@@ -102,6 +102,6 @@ class PositionSensorProbe extends ContinuousProbe {
             sensorMonitor.resetSamples(sensorId);
         }
 
-        logOnFile(true, new SensorsStats(stats));
+        if(stats != null) logOnFile(true, new SensorsStats(stats));
     }
 }
