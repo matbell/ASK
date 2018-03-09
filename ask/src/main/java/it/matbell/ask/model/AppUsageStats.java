@@ -27,14 +27,12 @@ import it.matbell.ask.logs.FileLogger;
 public class AppUsageStats implements Loggable {
 
     private String packageName;
-    private long firstTimeStamp, lastTimeStamp, lastTimeUsed, totalTimeInForeground;
+    private long lastTimeUsed, totalTimeInForeground;
 
     @SuppressWarnings("all")
     public AppUsageStats(UsageStats stats){
 
         this.packageName = stats.getPackageName();
-        this.firstTimeStamp = stats.getFirstTimeStamp();
-        this.lastTimeStamp = stats.getLastTimeStamp();
         this.lastTimeUsed = stats.getLastTimeUsed();
         this.totalTimeInForeground = stats.getTotalTimeInForeground();
     }
@@ -42,7 +40,6 @@ public class AppUsageStats implements Loggable {
     @Override
     public String getDataToLog() {
 
-        return packageName + FileLogger.SEP + firstTimeStamp + FileLogger.SEP + lastTimeStamp +
-                FileLogger.SEP + lastTimeUsed + FileLogger.SEP + totalTimeInForeground;
+        return packageName + FileLogger.SEP + lastTimeUsed + FileLogger.SEP + totalTimeInForeground;
     }
 }

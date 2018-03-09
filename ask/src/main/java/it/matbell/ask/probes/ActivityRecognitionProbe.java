@@ -22,6 +22,7 @@ package it.matbell.ask.probes;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.ActivityRecognitionClient;
