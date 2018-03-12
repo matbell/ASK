@@ -146,9 +146,10 @@ class WiFiProbe extends ContinuousProbe {
             NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             configuredNets = new HashSet<>();
-            for(WifiConfiguration conf : wifiManager.getConfiguredNetworks()){
-                configuredNets.add(conf.SSID);
-            }
+            if(wifiManager.getConfiguredNetworks() != null)
+                for(WifiConfiguration conf : wifiManager.getConfiguredNetworks()){
+                    configuredNets.add(conf.SSID);
+                }
 
             if(mWifi.isConnectedOrConnecting()){
                 WifiInfo wInfo = wifiManager.getConnectionInfo();
