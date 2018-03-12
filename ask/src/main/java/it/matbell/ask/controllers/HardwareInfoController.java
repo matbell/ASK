@@ -90,11 +90,7 @@ public class HardwareInfoController {
         TelephonyManager telephonyManager = ((TelephonyManager) context.getApplicationContext()
                 .getSystemService(Context.TELEPHONY_SERVICE));
 
-        String deviceId = (telephonyManager.getImei() != null) ? telephonyManager.getImei() :
-                telephonyManager.getMeid();
-
-
-        return deviceId;
+        return telephonyManager.getImei();
     }
 
     @SuppressWarnings("all")
