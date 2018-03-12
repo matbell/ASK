@@ -53,6 +53,6 @@ class CurrentCalendarEventsProbe extends ContinuousProbe {
 
         List<CalendarEvent> events = CalendarController.getCurrentEvents(getContext());
 
-        if(events.size() > 0) logOnFile(true, new LoggableElements(events));
+        logOnFile(true, new LoggableElements(events));
     }
 }

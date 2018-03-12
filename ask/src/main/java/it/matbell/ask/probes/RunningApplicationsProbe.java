@@ -67,7 +67,6 @@ class RunningApplicationsProbe extends ContinuousProbe {
         PackagesData packagesData = new PackagesData();
         packagesData.packages = AppsUsageController.getRecentApplications(getContext(), lastNMinutes);
 
-        if(packagesData.packages.size() > 0) logOnFile(true, packagesData);
-
+        logOnFile(true, packagesData);
     }
 }

@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.matbell.ask.logs.FileLogger;
+
 public class PackagesData implements Loggable{
 
     public List<String> packages = new ArrayList<>();
@@ -20,6 +22,6 @@ public class PackagesData implements Loggable{
     @Override
     public String getDataToLog() {
 
-        return StringUtils.join(packages,"\t");
+        return StringUtils.join(packages, FileLogger.SEP);
     }
 }

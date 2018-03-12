@@ -137,9 +137,7 @@ class WiFiP2PProbe extends ContinuousProbe {
         stopPeerDiscovery();
         wifiLock = Utils.releaseWifiLock(wifiLock);
 
-        if(addressList.size() != 0){
-            logOnFile(true, new WifiP2PData(addressList));
-        }
+        logOnFile(true, new WifiP2PData(addressList));
     }
 
     @Override

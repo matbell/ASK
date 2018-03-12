@@ -29,6 +29,7 @@ import java.util.List;
 
 import it.matbell.ask.commons.Utils;
 import it.matbell.ask.controllers.AppsUsageController;
+import it.matbell.ask.model.AppUsageData;
 import it.matbell.ask.model.AppUsageStats;
 
 /**
@@ -92,7 +93,7 @@ class AppsUsageProbe extends ContinuousProbe {
     private void getRunningApps(){
 
         List<AppUsageStats> apps = AppsUsageController.getAppUsageStats(getContext(), startDate);
-        if(apps.size() != 0) logOnFile(true, apps);
+        logOnFile(true, new AppUsageData(apps));
 
     }
 

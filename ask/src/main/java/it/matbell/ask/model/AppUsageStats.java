@@ -40,6 +40,6 @@ public class AppUsageStats implements Loggable {
     @Override
     public String getDataToLog() {
 
-        return packageName + FileLogger.SEP + lastTimeUsed + FileLogger.SEP + totalTimeInForeground;
+        return packageName + "," + lastTimeUsed + "," + totalTimeInForeground;
     }
 }

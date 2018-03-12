@@ -102,7 +102,7 @@ class WiFiProbe extends ContinuousProbe {
                                 configured);
                     }
 
-                    if(wiFiScanInfo.wiFiAps.size() != 0) logOnFile(true, wiFiScanInfo);
+                    logOnFile(true, wiFiScanInfo);
                 }
 
                 stop();
