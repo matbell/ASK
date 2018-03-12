@@ -138,6 +138,7 @@ class WiFiP2PProbe extends ContinuousProbe {
         wifiLock = Utils.releaseWifiLock(wifiLock);
 
         logOnFile(true, new WifiP2PData(addressList));
+        this.addressList = new ArrayList<>();
     }
 
     @Override
