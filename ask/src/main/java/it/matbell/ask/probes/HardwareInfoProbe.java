@@ -27,6 +27,7 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.util.Log;
 
 import java.util.Arrays;
 
@@ -96,7 +97,11 @@ class HardwareInfoProbe extends ContinuousProbe {
 
     @Override
     void onStop() {
-        getContext().unregisterReceiver(wifiReceiver);
+        try {
+            getContext().unregisterReceiver(wifiReceiver);
+        }catch (IllegalArgumentException e){
+            Log.e(Utils.TAG, "HardwareInfoProbe - Receiver not registered.");
+        }
         wifiLock = Utils.releaseWifiLock(wifiLock);
     }
 
