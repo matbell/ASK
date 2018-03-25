@@ -26,7 +26,7 @@ import it.matbell.ask.model.AudioInfo;
 /**
  * This probe monitors several information related to the {@link android.media.AudioManager}.
  * Specifically, it monitors the following information:
- *  - if the ringer mode is on or off
+ *  - ringer mode
  *  - alarm volume
  *  - music volume
  *  - notification volume
