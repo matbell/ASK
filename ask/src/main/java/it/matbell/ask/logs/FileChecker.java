@@ -72,6 +72,17 @@ public class FileChecker {
 
         File directory = new File(path);
 
+        // Check old unsent log zips
+        File[] zipFiles = directory.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().endsWith(".zip");
+            }
+        });
+
+        if(zipFiles.length > 0) fileSender.send(context, zipFiles);
+
+
+        // Check new log files
         File[] files = directory.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return !name.toLowerCase().endsWith(".zip");
