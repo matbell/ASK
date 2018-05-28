@@ -64,7 +64,7 @@ class HardwareInfoProbe extends ContinuousProbe {
     private static final String WIFI_LOCK_KEY = HardwareInfoProbe.class.getName();
 
     private String wifiP2pMac;
-    private WifiManager.WifiLock wifiLock;
+    //private WifiManager.WifiLock wifiLock;
 
     private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
@@ -102,7 +102,7 @@ class HardwareInfoProbe extends ContinuousProbe {
         }catch (IllegalArgumentException e){
             Log.e(Utils.TAG, "HardwareInfoProbe - Receiver not registered.");
         }
-        wifiLock = Utils.releaseWifiLock(wifiLock);
+        //wifiLock = Utils.releaseWifiLock(wifiLock);
     }
 
     @Override
@@ -114,7 +114,7 @@ class HardwareInfoProbe extends ContinuousProbe {
 
         if(wifiManager != null) {
 
-            wifiLock = Utils.acquireWifiLock(wifiManager, wifiLock, WIFI_LOCK_KEY);
+            //wifiLock = Utils.acquireWifiLock(wifiManager, wifiLock, WIFI_LOCK_KEY);
 
             if (wifiManager.isWifiEnabled()) {
                 wifiManager.setWifiEnabled(false);

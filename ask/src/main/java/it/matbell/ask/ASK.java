@@ -22,6 +22,7 @@ package it.matbell.ask;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 @SuppressWarnings("unused")
 public class ASK {
@@ -46,6 +47,7 @@ public class ASK {
     public void start(){
 
         if(!ASKManager.RUNNING) {
+            Log.d("ASK", "Starting ASK");
             Intent intent = new Intent(context, ASKManager.class);
             intent.putExtra(ASKManager.SETUP_KEY, jsonConfiguration);
             context.startService(intent);

@@ -60,7 +60,7 @@ class WiFiP2PProbe extends ContinuousProbe {
     private WifiP2pManager.Channel wifiP2pChannel;
     private WifiP2pManager wifiP2pManager;
     private WifiManager wifiManager;
-    private WifiManager.WifiLock wifiLock;
+    //private WifiManager.WifiLock wifiLock;
     private List<String> addressList = new ArrayList<>();
 
     private WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager.PeerListListener() {
@@ -135,7 +135,7 @@ class WiFiP2PProbe extends ContinuousProbe {
     @Override
     void onStop() {
         stopPeerDiscovery();
-        wifiLock = Utils.releaseWifiLock(wifiLock);
+        //wifiLock = Utils.releaseWifiLock(wifiLock);
 
         logOnFile(true, new WifiP2PData(addressList));
         this.addressList = new ArrayList<>();
@@ -150,7 +150,7 @@ class WiFiP2PProbe extends ContinuousProbe {
 
         getContext().registerReceiver(eventsReceiver, intentFilter);
 
-        wifiLock = Utils.acquireWifiLock(wifiManager, wifiLock, LOCK_KEY);
+        //wifiLock = Utils.acquireWifiLock(wifiManager, wifiLock, LOCK_KEY);
         startPeerDiscovery();
 
     }

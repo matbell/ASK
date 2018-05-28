@@ -24,8 +24,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.os.PowerManager;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -49,12 +47,10 @@ public class ASKManager extends Service {
     // Intent's action that contains the Json configuration string
     public static final String SETUP_KEY = "ASKSetup";
 
-
-
     private List<Worker> workers = new ArrayList<>();
     private FileChecker fileChecker;
 
-    private PowerManager.WakeLock wakeLock;
+    //private PowerManager.WakeLock wakeLock;
 
     @Override
     public void onCreate() {
@@ -69,10 +65,9 @@ public class ASKManager extends Service {
         if(fileChecker != null) fileChecker.stop();
         RUNNING = false;
 
-        if(wakeLock != null) wakeLock.release();
+        //if(wakeLock != null) wakeLock.release();
     }
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -87,12 +82,12 @@ public class ASKManager extends Service {
 
             parseConfiguration(configuration);
 
-            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            /*PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
             if(powerManager != null) {
                 wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                         this.getClass().getName());
                 wakeLock.acquire();
-            }
+            }*/
 
             RUNNING = true;
 

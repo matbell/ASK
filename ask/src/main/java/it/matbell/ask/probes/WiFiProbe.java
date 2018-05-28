@@ -73,7 +73,7 @@ class WiFiProbe extends ContinuousProbe {
 
     private WifiManager wifiManager;
     private ConnectivityManager connManager;
-    private WifiManager.WifiLock wifiLock;
+    //private WifiManager.WifiLock wifiLock;
     private String connectedBSSID;
     private Set<String> configuredNets;
 
@@ -131,7 +131,7 @@ class WiFiProbe extends ContinuousProbe {
 
         connectedBSSID = null;
         configuredNets = null;
-        wifiLock = Utils.releaseWifiLock(wifiLock);
+        //wifiLock = Utils.releaseWifiLock(wifiLock);
     }
 
     @Override
@@ -141,13 +141,15 @@ class WiFiProbe extends ContinuousProbe {
 
             if(!wifiManager.isWifiEnabled()) wifiManager.setWifiEnabled(true);
 
-            wifiLock = Utils.acquireWifiLock(wifiManager, wifiLock, LOCK_KEY);
+            //wifiLock = Utils.acquireWifiLock(wifiManager, wifiLock, LOCK_KEY);
 
             NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
             configuredNets = new HashSet<>();
-            if(wifiManager.getConfiguredNetworks() != null)
-                for(WifiConfiguration conf : wifiManager.getConfiguredNetworks()){
+
+            List<WifiConfiguration> configurations = wifiManager.getConfiguredNetworks();
+            if(configurations != null)
+                for(WifiConfiguration conf : configurations){
                     configuredNets.add(conf.SSID);
                 }
 

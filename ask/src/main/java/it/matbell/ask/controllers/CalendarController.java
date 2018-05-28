@@ -31,6 +31,7 @@ import me.everything.providers.android.calendar.Calendar;
 import me.everything.providers.android.calendar.CalendarProvider;
 import me.everything.providers.android.calendar.Event;
 import me.everything.providers.android.calendar.Instance;
+import me.everything.providers.core.Data;
 
 public class CalendarController {
 
@@ -57,11 +58,15 @@ public class CalendarController {
         CalendarProvider provider = new CalendarProvider(context);
         List<CalendarEvent> events = new ArrayList<>();
 
-        for(Instance instance : provider.getInstances(new Date().getTime(),
-                new Date().getTime()).getList()){
+        Data<Instance> instanceData = provider.getInstances(new Date().getTime(),
+                new Date().getTime());
 
-            CalendarEvent event = new CalendarEvent(provider.getEvent(instance.eventId));
-            if(!event.allDay) events.add(event);
+        if(instanceData != null){
+            for(Instance instance : instanceData.getList()){
+
+                CalendarEvent event = new CalendarEvent(provider.getEvent(instance.eventId));
+                if(!event.allDay) events.add(event);
+            }
         }
 
         return events;
